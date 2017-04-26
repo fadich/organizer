@@ -1,3 +1,7 @@
+royal_todo_item:
+    resource: "@RoyalTodoBundle/Resources/config/routing/item.yml"
+    prefix:   /royal/todo/item
+
 royal_todo_homepage:
     path:     /royal/todo
     defaults: { _controller: RoyalTodoBundle:Default:index }
