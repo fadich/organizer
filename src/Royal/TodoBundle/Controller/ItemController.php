@@ -3,8 +3,12 @@
 namespace Royal\TodoBundle\Controller;
 
 use Royal\TodoBundle\Entity\Item;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * Item controller.
@@ -12,6 +16,24 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ItemController extends Controller
 {
+    /**
+     * @var \Symfony\Component\Serializer\Serializer
+     */
+    public $serializer;
+
+    function __construct()
+    {
+        $encoders = [
+            new XmlEncoder(),
+            new JsonEncoder(),
+        ];
+        $normalizers = [
+            new ObjectNormalizer(),
+        ];
+
+        $this->serializer = new Serializer($normalizers, $encoders);
+    }
+
     /**
      * Lists all item entities.
      *
@@ -21,15 +43,21 @@ class ItemController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $items = $em->getRepository('RoyalTodoBundle:Item')->findAll();
+        foreach ($items as &$item) {
+            $item = $this->serializer->serialize($item, 'json');
+        }
 
-        return $this->render('item/index.html.twig', array(
+        return $this->json([
             'items' => $items,
-        ));
+        ]);
     }
 
     /**
      * Creates a new item entity.
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -42,18 +70,23 @@ class ItemController extends Controller
             $em->persist($item);
             $em->flush();
 
-            return $this->redirectToRoute('item_show', array('id' => $item->getId()));
+            return $this->json([
+                'item' => $this->serializer->serialize($item, 'json'),
+            ]);
         }
 
-        return $this->render('item/new.html.twig', array(
-            'item' => $item,
-            'form' => $form->createView(),
-        ));
+        return $this->json([
+            'item' => $this->serializer->serialize($item, 'json'),
+            'errors' => $this->serializer->serialize($form->getErrors(), 'json'),
+        ]);
     }
 
     /**
      * Finds and displays a item entity.
      *
+     * @param \Royal\TodoBundle\Entity\Item $item
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Item $item)
     {
@@ -68,6 +101,10 @@ class ItemController extends Controller
     /**
      * Displays a form to edit an existing item entity.
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Royal\TodoBundle\Entity\Item $item
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Item $item)
     {
@@ -91,6 +128,10 @@ class ItemController extends Controller
     /**
      * Deletes a item entity.
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Royal\TodoBundle\Entity\Item $item
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Item $item)
     {
