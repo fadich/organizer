@@ -1,0 +1,3 @@
+royal_todo_homepage:
+    path:     /royal/todo
+    defaults: { _controller: RoyalTodoBundle:Default:index }

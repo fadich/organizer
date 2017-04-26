@@ -1,0 +1,11 @@
+royal_index:
+    resource: "@RoyalIndexBundle/Resources/config/routing.yml"
+    prefix:   /
+
+royal_todo:
+    resource: "@RoyalTodoBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
