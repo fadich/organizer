@@ -44,7 +44,7 @@ class ItemController extends Controller
 
         $items = $em->getRepository('RoyalTodoBundle:Item')->findAll();
         foreach ($items as &$item) {
-            $item = $this->serializer->serialize($item, 'json');
+            $item = $this->jsonEncode($item);
         }
 
         $form = $this->createForm('Royal\TodoBundle\Form\ItemType', new Item());
@@ -75,13 +75,13 @@ class ItemController extends Controller
             $em->flush();
 
             return $this->json([
-                'item' => $this->serializer->serialize($item, 'json'),
+                'item' => $this->jsonEncode($item),
             ]);
         }
 
         return $this->json([
-            'item' => $this->serializer->serialize($item, 'json'),
-            'errors' => $this->serializer->serialize($form->getErrors(), 'json'),
+            'item' => $this->jsonEncode($item),
+            'errors' => $this->jsonEncode($form->getErrors()),
         ]);
     }
 
@@ -185,5 +185,15 @@ class ItemController extends Controller
     protected function getCsrfToken(string $tokenId)
     {
         return $this->csrfTokenManager()->getToken($tokenId)->getValue();
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return mixed
+     */
+    protected function jsonEncode($data)
+    {
+        return json_decode($this->serializer->serialize($data, 'json'), true);
     }
 }
