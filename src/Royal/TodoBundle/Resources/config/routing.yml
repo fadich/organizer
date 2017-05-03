@@ -1,7 +1,7 @@
 royal_todo_item:
     resource: "@RoyalTodoBundle/Resources/config/routing/item.yml"
     prefix:   /royal/todo/item
-    condition: "request.isXmlHttpRequest()"
+#    condition: "request.isXmlHttpRequest()"
 
 royal_todo_homepage:
     path:     /royal/todo

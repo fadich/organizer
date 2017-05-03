@@ -47,8 +47,11 @@ class ItemController extends Controller
             $item = $this->serializer->serialize($item, 'json');
         }
 
+        $form = $this->createForm('Royal\TodoBundle\Form\ItemType', new Item());
+        $csrf = $this->getCsrfToken($form->getName());
         return $this->json([
             'items' => $items,
+            'token' => $csrf,
         ]);
     }
 
@@ -66,6 +69,7 @@ class ItemController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            var_dump($request->get('create'), $form->isSubmitted()); die;
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
@@ -161,5 +165,25 @@ class ItemController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * @return \Symfony\Component\Security\Csrf\CsrfTokenManager
+     */
+    protected function csrfTokenManager()
+    {
+        /** @var \Symfony\Component\Security\Csrf\CsrfTokenManager $csrf */
+        $csrf = $this->get("security.csrf.token_manager");
+        return $csrf;
+    }
+
+    /**
+     * @param string $tokenId
+     *
+     * @return string
+     */
+    protected function getCsrfToken(string $tokenId)
+    {
+        return $this->csrfTokenManager()->getToken($tokenId)->getValue();
     }
 }
