@@ -16,7 +16,7 @@ class ItemType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('userId');
+            ->add('status');
     }
 
     /**

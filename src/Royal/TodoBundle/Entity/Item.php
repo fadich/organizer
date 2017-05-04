@@ -49,8 +49,6 @@ class Item
 
     /**
      * @Assert\NotNull()
-     *
-     * @Assert\NotNull()
      * @Assert\Range(
      *      min = 0,
      *      minMessage = "User ID cannot be negative",
