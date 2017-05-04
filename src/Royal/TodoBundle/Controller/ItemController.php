@@ -145,14 +145,21 @@ class ItemController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $deleted = clone $item;
             $em = $this->getDoctrine()->getManager();
             $em->remove($item);
             $em->flush();
+
+            return $this->json([
+                'item' => $this->jsonEncode($deleted),
+            ]);
         }
 
+        $csrf = $this->getCsrfToken($form->getName());
         return $this->json([
             'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($form->getErrors()),
+            'token' => $csrf,
         ]);
     }
 
