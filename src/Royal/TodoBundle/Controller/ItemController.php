@@ -60,7 +60,7 @@ class ItemController extends Controller
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -99,12 +99,9 @@ class ItemController extends Controller
      */
     public function showAction(Item $item)
     {
-        $deleteForm = $this->createDeleteForm($item);
-
-        return $this->render('item/show.html.twig', array(
-            'item' => $item,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->json([
+            'item' => $this->jsonEncode($item),
+        ]);
     }
 
     /**
@@ -113,25 +110,25 @@ class ItemController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Royal\TodoBundle\Entity\Item $item
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Item $item)
     {
-        $deleteForm = $this->createDeleteForm($item);
         $editForm = $this->createForm('Royal\TodoBundle\Form\ItemType', $item);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('item_edit', array('id' => $item->getId()));
+            return $this->json([
+                'item' => $this->jsonEncode($item),
+            ]);
         }
 
-        return $this->render('item/edit.html.twig', array(
-            'item' => $item,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->json([
+            'item' => $this->jsonEncode($item),
+            'errors' => $this->jsonEncode($editForm->getErrors()),
+        ]);
     }
 
     /**
@@ -140,7 +137,7 @@ class ItemController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Royal\TodoBundle\Entity\Item $item
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function deleteAction(Request $request, Item $item)
     {
@@ -153,7 +150,10 @@ class ItemController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('item_index');
+        return $this->json([
+            'item' => $this->jsonEncode($item),
+            'errors' => $this->jsonEncode($form->getErrors()),
+        ]);
     }
 
     /**
@@ -165,11 +165,13 @@ class ItemController extends Controller
      */
     private function createDeleteForm(Item $item)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('item_delete', array('id' => $item->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+        $form = $this->createFormBuilder()->setAction(
+            $this->generateUrl('item_delete', [
+                'id' => $item->getId()
+            ])
+        );
+
+        return $form->setMethod('DELETE')->getForm();
     }
 
     /**
