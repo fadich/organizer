@@ -1,0 +1,24 @@
+item_index:
+    path:     /
+    defaults: { _controller: "RoyalTodoBundle:Item:index" }
+    methods:  GET
+
+item_show:
+    path:     /{id}/show
+    defaults: { _controller: "RoyalTodoBundle:Item:show" }
+    methods:  GET
+
+item_new:
+    path:     /new
+    defaults: { _controller: "RoyalTodoBundle:Item:new" }
+    methods:  [GET, POST]
+
+item_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RoyalTodoBundle:Item:edit" }
+    methods:  [GET, POST]
+
+item_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RoyalTodoBundle:Item:delete" }
+    methods:  DELETE

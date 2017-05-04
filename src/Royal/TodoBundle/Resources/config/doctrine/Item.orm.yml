@@ -1,0 +1,28 @@
+Royal\TodoBundle\Entity\Item:
+    type: entity
+    table: null
+    repositoryClass: Royal\TodoBundle\Repository\ItemRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+        content:
+            type: text
+        status:
+            type: integer
+        userId:
+            type: integer
+            column: user_id
+        createdAt:
+            type: integer
+            column: created_at
+        updatedAt:
+            type: integer
+            column: updated_at
+    lifecycleCallbacks: {  }
