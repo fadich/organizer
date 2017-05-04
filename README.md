@@ -6,7 +6,7 @@
 
 - Get items:
 ```
-var r = $.get("http://127.0.0.1:4242/royal/todo/item", function (data) {
+$.get("http://127.0.0.1:4242/royal/todo/item", function (data) {
     // handling
 });
 ```
@@ -18,13 +18,13 @@ var form = {
     "royal_todobundle_item[title]": "Test",
     "royal_todobundle_item[status]": 4
 };
-var r = $.post("http://127.0.0.1:4242/royal/todo/item/new", form, function (data) {
+$.post("http://127.0.0.1:4242/royal/todo/item/new", form, function (data) {
     // handling
 });
 ```
 - Show item:
 ```
-var r = $.get("http://127.0.0.1:4242/royal/todo/item/{item_id}/show", function (data) {
+$.get("http://127.0.0.1:4242/royal/todo/item/{item_id}/show", function (data) {
     // handling
 });
 ```
@@ -36,7 +36,7 @@ var form = {
     "royal_todobundle_item[title]": "Test item",
     "royal_todobundle_item[status]": 4
 };
-var r = $.post("http://127.0.0.1:4242/royal/todo/item/{item_id}/edit", form, function (data) {
+$.post("http://127.0.0.1:4242/royal/todo/item/{item_id}/edit", form, function (data) {
     // handling
 });
 ```
