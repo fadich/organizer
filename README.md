@@ -1,14 +1,16 @@
 <h2 align="center">Organizer</h2>
 =========
 
-**Provides API**
-
 <hr>
 
-- <h4>Royal TODO API</h3>
+**Royal TODO API**
 
-
-
+- Get items:
+```
+var r = $.get("http://127.0.0.1:4242/royal/todo/item", function (data) {
+    // handling
+});
+```
 - Add new item:
 ```
 var form = {
@@ -18,7 +20,13 @@ var form = {
     "royal_todobundle_item[status]": 4
 };
 var r = $.post("http://127.0.0.1:4242/royal/todo/item/new", form, function (data) {
-    console.log(data);
+    // handling
+});
+```
+- Show item:
+```
+var r = $.get("http://127.0.0.1:4242/royal/todo/item/{item_id}/show", function (data) {
+    // handling
 });
 ```
 - Edit item:
@@ -30,7 +38,7 @@ var form = {
     "royal_todobundle_item[status]": 4
 };
 var r = $.post("http://127.0.0.1:4242/royal/todo/item/{item_id}/edit", form, function (data) {
-    console.log(data);
+    // handling
 });
 ```
 - Delete item:
@@ -42,7 +50,7 @@ $.ajax({
         "form[_token]": "3Y3LdMOVzbQJy74YAR5z3lKgw99tiUcJrlDglvKt73Q"
     },
     success: function(data) {
-        console.log(data);
+        // handling
     }
 });
 ```
