@@ -13,17 +13,20 @@ class ItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')->add('content')->add('status')->add('userId')->add('createdAt')->add('updatedAt');
+        $builder
+            ->add('title')
+            ->add('content')
+            ->add('userId');
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Royal\TodoBundle\Entity\Item'
-        ));
+        ]);
     }
 
     /**

@@ -64,12 +64,17 @@ class ItemController extends Controller
      */
     public function newAction(Request $request)
     {
+        // royal_todobundle_item[field_name]
         $item = new Item();
+        $item
+            ->setUserId(0)
+            ->setCreatedAt(time())
+            ->setUpdatedAt(time());
+
         $form = $this->createForm('Royal\TodoBundle\Form\ItemType', $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            var_dump($request->get('create'), $form->isSubmitted()); die;
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();

@@ -2,43 +2,77 @@
 
 namespace Royal\TodoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Item
  */
 class Item
 {
+    public const STATUS_ACTIVE = 4;
+    public const STATUS_POSTPONED = 3;
+    public const STATUS_DONE = 2;
+    public const STATUS_NOT_ACTIVE = 1;
+    public const STATUS_DELETED = 0;
+
     /**
      * @var int
      */
     protected $id;
 
     /**
-     * @var string
+     * @Assert\NotNull()
+     * @Assert\Length(
+     *      min = 0,
+     *      max = 255,
+     *      minMessage = "Title field cannot be shorter than {{ limit }}",
+     *      maxMessage = "Title field cannot be longer than {{ limit }} characters"
+     * )
      */
     protected $title;
 
     /**
-     * @var string
+     * @Assert\NotNull()
      */
     protected $content;
 
     /**
-     * @var int
+     * @Assert\NotNull()
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 4,
+     *      minMessage = "Status field cannot be less than {{ limit }}",
+     *      maxMessage = "Status field cannot be greater than {{ limit }}"
+     * )
      */
-    protected $status;
+    protected $status = self::STATUS_ACTIVE;
 
     /**
-     * @var int
+     * @Assert\NotNull()
+     *
+     * @Assert\NotNull()
+     * @Assert\Range(
+     *      min = 0,
+     *      minMessage = "User ID cannot be negative",
+     * )
      */
-    protected $userId;
+    protected $userId = 0;
 
     /**
-     * @var int
+     * @Assert\NotNull()
+     * @Assert\Range(
+     *      min = 0,
+     *      minMessage = "Created time cannot be negative",
+     * )
      */
     protected $createdAt;
 
     /**
-     * @var int
+     * @Assert\NotNull()
+     * @Assert\Range(
+     *      min = 0,
+     *      minMessage = "Updated time cannot be negative",
+     * )
      */
     protected $updatedAt;
 
