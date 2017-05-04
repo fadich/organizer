@@ -1,5 +1,4 @@
 <h2 align="center">Organizer</h2>
-=========
 
 <hr>
 
