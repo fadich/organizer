@@ -42,22 +42,22 @@
             <ul class="nav navbar-nav">
                 <li>
                     <a href="#">
-                        <span class="glyphicon glyphicon-list"></span> All
+                        <span class="glyphicon glyphicon-list"></span> All (4)
                     </a>
                 </li>
                 <li class="active">
                     <a href="#">
-                        <span class="glyphicon glyphicon-bell"></span> Active
+                        <span class="glyphicon glyphicon-bell"></span> Active (2)
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <span class="glyphicon glyphicon-time"></span> Postponed
+                        <span class="glyphicon glyphicon-time"></span> Postponed (1)
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <span class="glyphicon glyphicon-check"></span> Closed
+                        <span class="glyphicon glyphicon-check"></span> Closed (1)
                     </a>
                 </li>
             </ul>
@@ -91,8 +91,27 @@
 
 <div id="wrap" class="wrapper">
     <div id="main" class="container clear-top">
+
         <ul class="list-group">
-            <li class="list-group-item royal-item-active">
+
+            <li class="list-group-item">
+                <form action="">
+
+                    <div class="form-group" hidden>
+                        <label for="new-item-title">Title</label>
+                        <input type="text" class="form-control" id="new-item-title">
+                        <br>
+                        <label for="new-item-body">Body</label>
+                        <textarea class="form-control" rows="5" id="new-item-body" style="max-width: 100%"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-default royal-new-item" id="new-item-submit">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </form>
+            </li>
+
+            <li class="list-group-item royal-item royal-item-active">
                 <div class="royal-item">
                     <div class="royal-item-check">
                         <div class="checkbox">
@@ -101,11 +120,17 @@
                             </label>
                         </div>
                     </div>
-                    <div class="royal-item-content">
+                    <div class="royal-item-content royal-item">
                         <span class="pull-right">
-                            <span class="glyphicon glyphicon-time"></span> |
-                            <span class="glyphicon glyphicon-edit"></span> |
-                            <span class="glyphicon glyphicon-trash"></span>
+                            <button class="btn btn-link" data-toggle="tooltip" title="Postpone">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </button> |
+                            <button class="btn btn-link" data-toggle="tooltip" title="Edit">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </button> |
+                            <button class="btn btn-link" data-toggle="tooltip" title="Delete">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </span>
                         <h4 class="list-group-item-heading">
                             First List Group Item Heading
@@ -113,7 +138,7 @@
                     </div>
                 </div>
             </li>
-            <li class="list-group-item royal-item-done">
+            <li class="list-group-item royal-item royal-item-done">
                 <div class="royal-item">
                     <div class="royal-item-check">
                         <div class="checkbox">
@@ -124,8 +149,12 @@
                     </div>
                     <div class="royal-item-content">
                         <span class="pull-right">
-                            <span class="glyphicon glyphicon-edit"></span> |
-                            <span class="glyphicon glyphicon-trash"></span>
+                            <button class="btn btn-link" data-toggle="tooltip" title="Edit">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </button> |
+                            <button class="btn btn-link" data-toggle="tooltip" title="Delete">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </span>
                         <h4 class="list-group-item-heading">
                             Second List Group Item Heading
@@ -153,7 +182,7 @@
                     </div>
                 </div>
             </li>
-            <li class="list-group-item royal-item-postponed">
+            <li class="list-group-item royal-item royal-item-postponed">
                 <div class="royal-item">
                     <div class="royal-item-check">
                         <div class="checkbox">
@@ -164,9 +193,15 @@
                     </div>
                     <div class="royal-item-content">
                         <span class="pull-right">
-                            <span class="glyphicon glyphicon-share-alt"></span> |
-                            <span class="glyphicon glyphicon-edit"></span> |
-                            <span class="glyphicon glyphicon-trash"></span>
+                            <button class="btn btn-link" data-toggle="tooltip" title="Restore">
+                                <span class="glyphicon glyphicon-share-alt"></span>
+                            </button> |
+                            <button class="btn btn-link" data-toggle="tooltip" title="Edit">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </button> |
+                            <button class="btn btn-link" data-toggle="tooltip" title="Delete">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </span>
                         <h4 class="list-group-item-heading">
                             Third List Group Item Heading
@@ -186,7 +221,7 @@
                     </div>
                 </div>
             </li>
-            <li class="list-group-item royal-item-active">
+            <li class="list-group-item royal-item royal-item-active">
                 <div class="royal-item">
                     <div class="royal-item-check">
                         <div class="checkbox">
@@ -197,12 +232,18 @@
                     </div>
                     <div class="royal-item-content">
                         <span class="pull-right">
-                            <span class="glyphicon glyphicon-time"></span> |
-                            <span class="glyphicon glyphicon-edit"></span> |
-                            <span class="glyphicon glyphicon-trash"></span>
+                            <button class="btn btn-link" data-toggle="tooltip" title="Postpone">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </button> |
+                            <button class="btn btn-link" data-toggle="tooltip" title="Edit">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </button> |
+                            <button class="btn btn-link" data-toggle="tooltip" title="Delete">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </span>
                         <h4 class="list-group-item-heading">
-                            Fourth List Group Item Heading
+                            Fourth List Group Item Heading Fourth List Group Item Heading Fourth List Group Item Heading
                         </h4>
                         <hr>
                         <p class="list-group-item-text">
@@ -212,17 +253,25 @@
                             List Group Item Text
                             List Group Item Text
                             List Group Item Text
-                            List Group Item Text
+                            List Group Item Text List Group Item Text List Group Item Text
+                            List Group Item Text List Group Item Text
+                            List Group Item Text List Group Item Text
+                            List Group Item Text List Group Item Text
                         </p>
                     </div>
                 </div>
             </li>
         </ul>
+
     </div>
 </div>
 
-<footer class="footer container-fluid text-center">
-    <p>Footer Text</p>
+<footer class="footer container-fluid">
+    <div class="pull-right royal-trash">
+        <a class="text-muted" href="#">
+            <span class="glyphicon glyphicon-trash text-muted"></span> Trash
+        </a>
+    </div>
 </footer>
 </body>
 
@@ -245,12 +294,17 @@
     .footer {
         height: 75px;
         clear:both;
-        padding-top:20px;
+        padding: 30px;
         background: #EEEEEE;
         position: relative;
     }
 
-    .list-group-item:hover {
+
+    .royal-item {
+        width: 100%;
+    }
+
+    .royal-item:hover {
         background: #E3E3E3;
         cursor: move;
     }
@@ -285,6 +339,18 @@
         -webkit-box-orient: vertical;
     }
 
+    .royal-item-content>h4 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .btn-link {
+        outline: none !important;
+        color: black !important;
+    }
+
     .royal-item-done {
         text-decoration: line-through;
         color: #AAAAAA;
@@ -292,6 +358,14 @@
 
     .royal-item-postponed {
         color: #888888;
+    }
+
+    .royal-trash>a {
+        text-decoration: none;
+    }
+
+    .royal-new-item {
+        width: 100%;
     }
 </style>
 </html>
