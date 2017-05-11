@@ -1,0 +1,11 @@
+{
+  "name": "organizer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server/src/index.js",
+  "scripts": {
+    "start": "concurrent \"npm run tsc:w\" \"nodemon server/src/index.js\" "
+  },
+  "author": "Fadi Ahmad",
+  "license": "ISC"
+}
