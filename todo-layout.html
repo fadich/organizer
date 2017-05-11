@@ -142,7 +142,7 @@
                             </button>
                         </span>
                         <hr>
-                        <p class="list-group-item-text">
+                        <p class="list-group-item-text r-item-body-text">
                             List Group Item Text
                             List Group Item Text
                             List Group Item Text
@@ -189,7 +189,7 @@
                             </button>
                         </span>
                         <hr>
-                        <p class="list-group-item-text">
+                        <p class="list-group-item-text r-item-body-text">
                             List Group Item Text
                             List Group Item Text
                             List Group Item Text
@@ -228,7 +228,7 @@
                             </button>
                         </span>
                         <hr>
-                        <p class="list-group-item-text">
+                        <p class="list-group-item-text r-item-body-text">
                             List Group Item Text
                             List Group Item Text
                             List Group Item Text
@@ -309,7 +309,7 @@
     }
 
     .r-item-content {
-        padding-left: 15px;
+        padding-left: 5px;
         width: 100%;
         display: table-cell;
         vertical-align: middle;
@@ -318,13 +318,15 @@
     .r-item-content>.r-item-title {
         font-weight: bold;
         overflow: hidden;
-        display: -webkit-inline-box;
+        display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-        max-width: 75%;
+        clear: both;
+        float: left;
     }
 
-    .r-item-content>p {
+    .r-item-content>.r-item-body-text {
+        font-size: 90%;
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -338,11 +340,12 @@
 
     .r-item-done {
         text-decoration: line-through;
-        color: #999999;
+        /*color: #999999;*/
     }
 
     .r-item-postponed {
         /* color: #888888; */
+        font-style: italic;
     }
 
     .r-trash>a {
