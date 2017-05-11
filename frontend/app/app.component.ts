@@ -1,8 +1,12 @@
 import {Component} from 'angular2/core';
+import {HeaderNavComponent} from './navigation/header-nav.component'
 
 @Component({
     selector: 'todo',
-    template: `<h1>Hello World!</h1>`
+    template: `<header></header>`,
+    directives: [
+        HeaderNavComponent,
+    ],
 })
 
 export class AppComponent { }
