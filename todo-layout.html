@@ -131,9 +131,7 @@
                     </div>
                     <div class="r-item-content">
                         <p class="list-group-item-heading r-item-title">
-                            <strike>
-                                Second List Group Item Heading
-                            </strike>
+                            Second List Group Item Heading
                         </p>
                         <span class="pull-right">
                             <button class="btn btn-link" data-toggle="tooltip" title="Edit">
@@ -143,27 +141,25 @@
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </span>
-                        <br><br>
-                        <p class="list-group-item-text r-item-body-text">
-                            <strike>
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                            </strike>
+                        <hr>
+                        <p class="list-group-item-text">
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
                         </p>
                     </div>
                 </div>
@@ -179,9 +175,7 @@
                     </div>
                     <div class="r-item-content">
                         <p class="list-group-item-heading r-item-title">
-                            <i>
-                                Third List Group Item Heading
-                            </i>
+                            Third List Group Item Heading
                         </p>
                         <span class="pull-right">
                             <button class="btn btn-link" data-toggle="tooltip" title="Restore">
@@ -194,19 +188,17 @@
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </span>
-                        <br><br>
-                        <p class="list-group-item-text r-item-body-text">
-                            <i>
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                                List Group Item Text
-                            </i>
+                        <hr>
+                        <p class="list-group-item-text">
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
+                            List Group Item Text
                         </p>
                     </div>
                 </div>
@@ -235,8 +227,8 @@
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </span>
-                        <br><br>
-                        <p class="list-group-item-text r-item-body-text">
+                        <hr>
+                        <p class="list-group-item-text">
                             List Group Item Text
                             List Group Item Text
                             List Group Item Text
@@ -317,7 +309,7 @@
     }
 
     .r-item-content {
-        padding-left: 5px;
+        padding-left: 15px;
         width: 100%;
         display: table-cell;
         vertical-align: middle;
@@ -326,15 +318,13 @@
     .r-item-content>.r-item-title {
         font-weight: bold;
         overflow: hidden;
-        display: -webkit-box;
+        display: -webkit-inline-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
-        clear: both;
-        float: left;
+        max-width: 75%;
     }
 
-    .r-item-content>.r-item-body-text {
-        font-size: 90%;
+    .r-item-content>p {
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -348,12 +338,11 @@
 
     .r-item-done {
         text-decoration: line-through;
-        /*color: #999999;*/
+        color: #999999;
     }
 
     .r-item-postponed {
         /* color: #888888; */
-        /* font-style: italic; */
     }
 
     .r-trash>a {
