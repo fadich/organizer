@@ -32,25 +32,15 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
+                <li class="dropdown" *ngIf="moreApps.getApplications().length">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="glyphicon glyphicon-th"></span> More
                     </a>
                     <ul class="dropdown-menu r-nav-more">
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
-                        </li>
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
-                        </li>
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
-                        </li>
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
-                        </li>
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
+                        <li class="pickList col-sm-4 text-center" *ngFor="let app of moreApps.getApplications()">
+                            <a href="{{ app.url }}" class="r-more-app-link" data-toggle="tooltip" title="{{ app.title }}">
+                                {{ app.title }}
+                            </a>
                         </li>
                     </ul>
                 </li>

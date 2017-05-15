@@ -32,8 +32,8 @@ html, body {
 }
 
 .r-nav-more {
-    width: 300px;
-    min-width: 300px;
+    width: 500px;
+    max-width: 100vw;
 }
 
 .r-item-body {
@@ -96,4 +96,9 @@ html, body {
 .r-new-item {
     width: 100%;
     height: auto;
+}
+
+.r-more-app-link {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
