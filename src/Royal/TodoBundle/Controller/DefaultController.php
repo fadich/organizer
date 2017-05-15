@@ -8,6 +8,6 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('RoyalTodoBundle:Default:index.html.twig');
+        return $this->redirect('http://127.0.0.1:6969');
     }
 }

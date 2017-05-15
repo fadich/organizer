@@ -1,0 +1,56 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">ROYAL TODO LIST</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="myNavbar">
+
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="#">
+                        <span class="glyphicon glyphicon-list"></span> All (4)
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-bell"></span> Active (2)
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-time"></span> Postponed (1)
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-check"></span> Done (1)
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" *ngIf="moreApps.getApplications().length">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-th"></span> More
+                    </a>
+                    <ul class="dropdown-menu r-nav-more">
+                        <li class="pickList col-sm-4 text-center" *ngFor="let app of moreApps.getApplications()">
+                            <a href="{{ app.url }}" class="r-more-app-link" data-toggle="tooltip" title="{{ app.title }}">
+                                {{ app.title }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
