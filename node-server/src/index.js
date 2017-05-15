@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded());
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 
 app.get("/", function(req, res) {
-    res.sendFile(path.resolve(__dirname + "../../../todo-layout.html"));
+    res.sendFile(path.resolve(__dirname + "/../../todo-layout.html"));
     // res.send("Hello World!");
 });
 
