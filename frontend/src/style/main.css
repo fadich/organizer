@@ -46,7 +46,7 @@ html, body {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    padding: 0 10px;
+    padding: 0 15px;
 }
 
 .r-item-content {
@@ -64,6 +64,7 @@ html, body {
     -webkit-box-orient: vertical;
     clear: both;
     float: left;
+    padding-top: 5px;
 }
 
 .r-item-content>.r-item-body-text {
