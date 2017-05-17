@@ -6,7 +6,7 @@ import { WrapperComponent } from './body/wrapper.component'
     selector: 'todo',
     template: `
         <header></header>
-        <div id="wrap" class="wrapper"></div>
+        <wrapper></wrapper>
     `,
     directives: [
         HeaderNavComponent,
