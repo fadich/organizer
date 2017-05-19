@@ -1,74 +1,55 @@
 <ul class="list-group">
 
-
-    <li class="list-group-item r-item r-item-active">
+    <li *ngFor="let item of todoItemService.getItems()"
+        class="list-group-item r-item {{ item.getStatusClass() }}"
+        [hidden]="item.isDeleted()">
         <div class="r-item-body">
             <div class="r-item-check">
                 <div class="checkbox">
-                    <!--<div class="tag"></div>-->
-                    <input type="checkbox" id="checkbox-1" class="regular-checkbox"/>
-                    <label for="checkbox-1"></label>
+                    <label>
+                        <input type="checkbox"
+                               class="__regular-checkbox"
+                               [checked]="item.isDone()"/>
+                    </label>
                 </div>
             </div>
             <div class="r-item-content">
                 <p class="list-group-item-heading r-item-title">
-                    First List Group Item Heading
+                    <i *ngIf="item.isPostponed()">
+                        {{ item.title }}
+                    </i>
+                    <strike *ngIf="item.isDone()">
+                        {{ item.title }}
+                    </strike>
+                    <span *ngIf="item.isActive()">
+                        {{ item.title }}
+                    </span>
                 </p>
                 <span class="pull-right">
-                    <button class="btn btn-link" data-toggle="tooltip" title="Postpone">
+                    <button class="btn btn-link" data-toggle="tooltip" title="Postpone" *ngIf="item.isActive()">
                         <span class="glyphicon glyphicon-time"></span>
-                    </button> |
-                    <button class="btn btn-link" data-toggle="tooltip" title="Edit">
+                    </button>
+                    <button class="btn btn-link" data-toggle="tooltip" title="Restore" *ngIf="item.isPostponed()">
+                        <span class="glyphicon glyphicon-share-alt"></span>
+                    </button>
+                    <button class="btn btn-link" data-toggle="tooltip" title="Edit" *ngIf="item.isActive() || item.isPostponed()">
                         <span class="glyphicon glyphicon-edit"></span>
-                    </button> |
+                    </button>
                     <button class="btn btn-link" data-toggle="tooltip" title="Delete">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </span>
-            </div>
-        </div>
-    </li>
-
-
-    <li class="list-group-item r-item r-item-postponed">
-        <div class="r-item-body">
-            <div class="r-item-check">
-                <div class="checkbox">
-                    <!--<div class="tag"></div>-->
-                    <input type="checkbox" id="checkbox-2" class="regular-checkbox"/>
-                    <label for="checkbox-2"></label>
-                </div>
-            </div>
-            <div class="r-item-content">
-                <p class="list-group-item-heading r-item-title">
-                    <i>
-                        Third List Group Item Heading
-                    </i>
-                </p>
-                <span class="pull-right">
-                            <button class="btn btn-link" data-toggle="tooltip" title="Restore">
-                                <span class="glyphicon glyphicon-share-alt"></span>
-                            </button> |
-                            <button class="btn btn-link" data-toggle="tooltip" title="Edit">
-                                <span class="glyphicon glyphicon-edit"></span>
-                            </button> |
-                            <button class="btn btn-link" data-toggle="tooltip" title="Delete">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                        </span>
                 <br><br>
                 <p class="list-group-item-text r-item-body-text">
-                    <i>
-                        List Group Item Text
-                        List Group Item Text
-                        List Group Item Text
-                        List Group Item Text
-                        List Group Item Text
-                        List Group Item Text
-                        List Group Item Text
-                        List Group Item Text
-                        List Group Item Text
+                    <i *ngIf="item.isPostponed()">
+                        {{ item.content }}
                     </i>
+                    <strike *ngIf="item.isDone()">
+                        {{ item.content }}
+                    </strike>
+                    <span *ngIf="item.isActive()">
+                        {{ item.content }}
+                    </span>
                 </p>
             </div>
         </div>
