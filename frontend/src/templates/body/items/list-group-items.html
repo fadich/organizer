@@ -25,21 +25,10 @@
                         {{ item.title }}
                     </span>
                 </p>
-                <span class="pull-right">
-                    <button class="btn btn-link" data-toggle="tooltip" title="Postpone" *ngIf="item.isActive()">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </button>
-                    <button class="btn btn-link" data-toggle="tooltip" title="Restore" *ngIf="item.isPostponed()">
-                        <span class="glyphicon glyphicon-share-alt"></span>
-                    </button>
-                    <button class="btn btn-link" data-toggle="tooltip" title="Edit" *ngIf="item.isActive() || item.isPostponed()">
-                        <span class="glyphicon glyphicon-edit"></span>
-                    </button>
-                    <button class="btn btn-link" data-toggle="tooltip" title="Delete">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                </span>
+
+                <item-actions [item]="item"></item-actions>
                 <br><br>
+
                 <p class="list-group-item-text r-item-body-text">
                     <i *ngIf="item.isPostponed()">
                         {{ item.content }}
