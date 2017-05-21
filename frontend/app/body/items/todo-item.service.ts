@@ -40,7 +40,7 @@ export class TodoItemService {
             },
             {
                 id: 2,
-                title: "Second item",
+                title: "Second item Second item Second item Second item",
                 content: "Item contentItem contentItem contentItem contentItem contentItem content" +
                           "Item contentItem contentItem contentItem contentItem contentItem content" +
                           "Item contentItem contentItem contentItem contentItem contentItem content",
@@ -51,7 +51,7 @@ export class TodoItemService {
             },
             {
                 id: 5,
-                title: "Fifth item",
+                title: "Fifth item Fifth item Fifth item Fifth item Fifth item Fifth item",
                 content: null,
                 status: 4,
                 userId: 0,

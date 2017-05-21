@@ -1,7 +1,7 @@
-Royal\TodoBundle\Entity\Item:
+Royal\TodoBundle\Entity\TodoItem:
     type: entity
     table: null
-    repositoryClass: Royal\TodoBundle\Repository\ItemRepository
+    repositoryClass: Royal\TodoBundle\Repository\TodoItemRepository
     id:
         id:
             type: integer
