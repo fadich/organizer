@@ -1,6 +1,6 @@
 import { Component } from 'angular2/core';
-import { TodoItemService } from './todo-item.service';
-import { ActionsComponent } from './actions.component';
+import { TodoItemService } from './todo.item.service';
+import { TodoItemComponent } from './todo.item.component';
 
 @Component({
     selector: '[id=main]',
@@ -9,7 +9,7 @@ import { ActionsComponent } from './actions.component';
         TodoItemService,
     ],
     directives: [
-        ActionsComponent,
+        TodoItemComponent,
     ]
 })
 

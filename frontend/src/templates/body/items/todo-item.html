@@ -1,0 +1,39 @@
+<div class="r-item-body">
+    <div class="r-item-check">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       class="__regular-checkbox"
+                       [checked]="item.isDone()"/>
+            </label>
+        </div>
+    </div>
+    <div class="r-item-content">
+        <p class="list-group-item-heading r-item-title">
+            <i *ngIf="item.isPostponed()">
+                {{ item.title }}
+            </i>
+            <strike *ngIf="item.isDone()">
+                {{ item.title }}
+            </strike>
+            <span *ngIf="item.isActive()">
+                        {{ item.title }}
+                    </span>
+        </p>
+
+        <item-actions [item]="item"></item-actions>
+        <br><br>
+
+        <p class="list-group-item-text r-item-body-text">
+            <i *ngIf="item.isPostponed()">
+                {{ item.content }}
+            </i>
+            <strike *ngIf="item.isDone()">
+                {{ item.content }}
+            </strike>
+            <span *ngIf="item.isActive()">
+                        {{ item.content }}
+                    </span>
+        </p>
+    </div>
+</div>
