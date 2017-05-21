@@ -2,7 +2,7 @@
 
 namespace Royal\TodoBundle\Controller;
 
-use Royal\TodoBundle\Entity\Item;
+use Royal\TodoBundle\Entity\TodoItem;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -42,12 +42,12 @@ class ItemController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $items = $em->getRepository('RoyalTodoBundle:Item')->findAll();
+        $items = $em->getRepository('RoyalTodoBundle:TodoItem')->findAll();
         foreach ($items as &$item) {
             $item = $this->jsonEncode($item);
         }
 
-        $form = $this->createForm('Royal\TodoBundle\Form\ItemType', new Item());
+        $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', new TodoItem());
         $csrf = $this->getCsrfToken($form->getName());
         return $this->json([
             'items' => $items,
@@ -65,13 +65,13 @@ class ItemController extends Controller
     public function newAction(Request $request)
     {
         // royal_todobundle_item[field_name]
-        $item = new Item();
+        $item = new TodoItem();
         $item
             ->setUserId(0)
             ->setCreatedAt(time())
             ->setUpdatedAt(time());
 
-        $form = $this->createForm('Royal\TodoBundle\Form\ItemType', $item);
+        $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -85,7 +85,6 @@ class ItemController extends Controller
         }
 
         return $this->json([
-            'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($form->getErrors()),
         ]);
     }
@@ -93,11 +92,11 @@ class ItemController extends Controller
     /**
      * Finds and displays a item entity.
      *
-     * @param \Royal\TodoBundle\Entity\Item $item
+     * @param \Royal\TodoBundle\Entity\TodoItem $item
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction(Item $item)
+    public function showAction(TodoItem $item)
     {
         return $this->json([
             'item' => $this->jsonEncode($item),
@@ -108,13 +107,13 @@ class ItemController extends Controller
      * Displays a form to edit an existing item entity.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Royal\TodoBundle\Entity\Item $item
+     * @param \Royal\TodoBundle\Entity\TodoItem $item
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, Item $item)
+    public function editAction(Request $request, TodoItem $item)
     {
-        $editForm = $this->createForm('Royal\TodoBundle\Form\ItemType', $item);
+        $editForm = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -135,11 +134,11 @@ class ItemController extends Controller
      * Deletes a item entity.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Royal\TodoBundle\Entity\Item $item
+     * @param \Royal\TodoBundle\Entity\TodoItem $item
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteAction(Request $request, Item $item)
+    public function deleteAction(Request $request, TodoItem $item)
     {
         $form = $this->createDeleteForm($item);
         $form->handleRequest($request);
@@ -166,11 +165,11 @@ class ItemController extends Controller
     /**
      * Creates a form to delete a item entity.
      *
-     * @param Item $item The item entity
+     * @param \Royal\TodoBundle\Entity\TodoItem $item The item entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Item $item)
+    private function createDeleteForm(TodoItem $item)
     {
         $form = $this->createFormBuilder()->setAction(
             $this->generateUrl('item_delete', [
