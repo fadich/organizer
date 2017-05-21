@@ -1,6 +1,6 @@
-import { Component } from 'angular2/core';
-import { TodoItemService } from './todo-item.service';
-import { ActionsComponent } from './actions.component';
+import {Component} from 'angular2/core';
+import {TodoItemService} from '../../services/todo-item.service';
+import {TodoItemComponent} from './todo-item.component';
 
 @Component({
     selector: '[id=main]',
@@ -9,7 +9,7 @@ import { ActionsComponent } from './actions.component';
         TodoItemService,
     ],
     directives: [
-        ActionsComponent,
+        TodoItemComponent,
     ]
 })
 
@@ -18,4 +18,12 @@ export class GroupListComponent {
     public constructor (
         public todoItemService:TodoItemService
     ) {  }
+
+    public isStatusHidden(status:number):boolean {
+        if (status != 1 && (status == TodoItemService.filter || TodoItemService.filter == 0)) {
+            return false;
+        }
+
+        return status != TodoItemService.filter;
+    }
 }

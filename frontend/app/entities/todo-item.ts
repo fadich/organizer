@@ -1,8 +1,8 @@
 export class TodoItem {
-    public static STATUS_ACTIVE = 4;
-    public static STATUS_POSTPONED = 3;
-    public static STATUS_DONE = 2;
-    public static STATUS_DELETED = 1;
+    public static STATUS_ACTIVE:number = 4;
+    public static STATUS_POSTPONED:number = 3;
+    public static STATUS_DONE:number = 2;
+    public static STATUS_DELETED:number = 1;
 
     public id:number;
     public title:string;

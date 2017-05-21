@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Item
  */
-class Item
+class TodoItem
 {
     public const STATUS_ACTIVE = 4;
     public const STATUS_POSTPONED = 3;

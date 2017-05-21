@@ -1,16 +1,18 @@
 import { Injectable } from 'angular2/core';
-import { TodoItem } from '../../entities/todo-item';
+import { TodoItem } from '../entities/todo-item';
 
 @Injectable()
 
 export class TodoItemService {
-    protected items:TodoItem[] = [];
+    public static filter:number = 0;
+
+    protected static items:TodoItem[] = [];
 
     public getItems():TodoItem[] {
-        if (!this.items.length) {
-            let items = TodoItemService.requestItems();
+        if (!TodoItemService.items.length) {
+            let items = this.requestItems();
             for (let item of items) {
-                this.items.push(
+                TodoItemService.items.push(
                     new TodoItem(
                         item['id'],
                         item['title'],
@@ -24,10 +26,10 @@ export class TodoItemService {
             }
         }
 
-        return this.items;
+        return TodoItemService.items;
     }
 
-    protected static requestItems():object[] {
+    protected requestItems():object[] {
         return [
             {
                 id: 1,
@@ -40,7 +42,7 @@ export class TodoItemService {
             },
             {
                 id: 2,
-                title: "Second item",
+                title: "Second item Second item Second item Second item",
                 content: "Item contentItem contentItem contentItem contentItem contentItem content" +
                           "Item contentItem contentItem contentItem contentItem contentItem content" +
                           "Item contentItem contentItem contentItem contentItem contentItem content",
@@ -51,7 +53,7 @@ export class TodoItemService {
             },
             {
                 id: 5,
-                title: "Fifth item",
+                title: "Fifth item Fifth item Fifth item Fifth item Fifth item Fifth item",
                 content: null,
                 status: 4,
                 userId: 0,
