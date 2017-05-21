@@ -1,6 +1,6 @@
-import { Component } from 'angular2/core';
-import { TodoItemService } from './todo.item.service';
-import { TodoItemComponent } from './todo.item.component';
+import {Component} from 'angular2/core';
+import {TodoItemService} from '../../services/todo-item.service';
+import {TodoItemComponent} from './todo-item.component';
 
 @Component({
     selector: '[id=main]',

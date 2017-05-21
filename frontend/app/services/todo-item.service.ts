@@ -1,9 +1,11 @@
 import { Injectable } from 'angular2/core';
-import { TodoItem } from '../../entities/todo-item';
+import { TodoItem } from '../entities/todo-item';
 
 @Injectable()
 
 export class TodoItemService {
+    public static filter:number = 0;
+
     protected items:TodoItem[] = [];
 
     public getItems():TodoItem[] {

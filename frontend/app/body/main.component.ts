@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import { GroupListComponent } from './items/group.list.component';
+import {Component} from 'angular2/core';
+import {GroupListComponent} from './items/group-list.component';
 
 @Component({
     selector: 'main',
