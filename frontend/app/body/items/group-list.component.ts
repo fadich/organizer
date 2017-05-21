@@ -18,4 +18,12 @@ export class GroupListComponent {
     public constructor (
         public todoItemService:TodoItemService
     ) {  }
+
+    public isStatusHidden(status:number):boolean {
+        if (status != 1 && (status == TodoItemService.filter || TodoItemService.filter == 0)) {
+            return false;
+        }
+
+        return status != TodoItemService.filter;
+    }
 }

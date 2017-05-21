@@ -3,7 +3,7 @@
     <li class="list-group-item">
         <form action="">
 
-            <div class="form-group" hidden>
+            <div class="form-group" [hidden]="true">
                 <label for="new-item-title">Title</label>
                 <input type="text" class="form-control" id="new-item-title">
                 <br>
@@ -18,8 +18,8 @@
     </li>
 
     <li *ngFor="let item of todoItemService.getItems()"
-        class="list-group-item r-item {{ item.getStatusClass() }}"
-        [hidden]="item.isDeleted()"
+        class="{{ isStatusHidden(item.status) ? '' : 'list-group-item' }} r-item {{ item.getStatusClass() }}"
+        [hidden]="isStatusHidden(item.status)"
         [item]="item">
 
     </li>

@@ -6,13 +6,13 @@ import { TodoItem } from '../entities/todo-item';
 export class TodoItemService {
     public static filter:number = 0;
 
-    protected items:TodoItem[] = [];
+    protected static items:TodoItem[] = [];
 
     public getItems():TodoItem[] {
-        if (!this.items.length) {
-            let items = TodoItemService.requestItems();
+        if (!TodoItemService.items.length) {
+            let items = this.requestItems();
             for (let item of items) {
-                this.items.push(
+                TodoItemService.items.push(
                     new TodoItem(
                         item['id'],
                         item['title'],
@@ -26,10 +26,10 @@ export class TodoItemService {
             }
         }
 
-        return this.items;
+        return TodoItemService.items;
     }
 
-    protected static requestItems():object[] {
+    protected requestItems():object[] {
         return [
             {
                 id: 1,

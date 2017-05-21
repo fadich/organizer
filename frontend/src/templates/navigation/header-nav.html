@@ -13,24 +13,24 @@
         <div class="collapse navbar-collapse" id="myNavbar">
 
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="#">
-                        <span class="glyphicon glyphicon-list"></span> All (4)
+                <li class="{{ activeFilter(0) }}">
+                    <a href="#" (click)="setFilter(0)">
+                        <span class="glyphicon glyphicon-list"></span> All ({{ countItems([2,3,4]) }})
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <span class="glyphicon glyphicon-bell"></span> Active (2)
+                <li class="{{ activeFilter(4) }}">
+                    <a href="#" (click)="setFilter(4)">
+                        <span class="glyphicon glyphicon-bell"></span> Active ({{ countItems([4]) }})
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <span class="glyphicon glyphicon-time"></span> Postponed (1)
+                <li class="{{ activeFilter(3) }}">
+                    <a href="#" (click)="setFilter(3)">
+                        <span class="glyphicon glyphicon-time"></span> Postponed ({{ countItems([3]) }})
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <span class="glyphicon glyphicon-check"></span> Done (1)
+                <li class="{{ activeFilter(2) }}">
+                    <a href="#" (click)="setFilter(2)">
+                        <span class="glyphicon glyphicon-check"></span> Done ({{ countItems([2]) }})
                     </a>
                 </li>
             </ul>

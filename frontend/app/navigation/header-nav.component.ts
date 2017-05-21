@@ -13,12 +13,31 @@ import { TodoItemService } from '../services/todo-item.service';
 
 export class HeaderNavComponent {
     public moreApps:MoreAppsService;
+    public todoItem:TodoItemService;
 
     constructor () {
         this.moreApps = new MoreAppsService();
+        this.todoItem = new TodoItemService();
     }
 
-    public static activeFilter(status:number):string {
+    public activeFilter(status:number):string {
         return TodoItemService.filter == status ? 'active' : '';
+    }
+
+    public countItems(statuses:number[]):number {
+        let count:number = 0;
+        let items = this.todoItem.getItems();
+
+        for (let item of items) {
+            if (~statuses.indexOf(item.status)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public setFilter(status:number) {
+        TodoItemService.filter = status;
     }
 }
