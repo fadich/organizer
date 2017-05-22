@@ -1,6 +1,7 @@
 import {Component, Input} from 'angular2/core';
 import {TodoItem} from '../../entities/todo-item';
 import { ActionsComponent } from './actions.component';
+import { GroupListComponent } from './group-list.component';
 
 @Component({
     selector: '.r-item',
@@ -12,14 +13,9 @@ import { ActionsComponent } from './actions.component';
 
 export class TodoItemComponent {
     @Input() item:TodoItem;
-    public static fullViewedItem:number = 0;
+    public itemList:GroupListComponent;
 
-    public fullViewItem(itemId:number):TodoItemComponent {
-        TodoItemComponent.fullViewedItem = TodoItemComponent.fullViewedItem == itemId ? 0 : itemId;
-        return this;
-    }
-
-    public isFullView(itemId:number):boolean {
-        return TodoItemComponent.fullViewedItem == itemId;
+    constructor () {
+        this.itemList = new GroupListComponent();
     }
 }

@@ -106,9 +106,11 @@ html, body {
 }
 
 .r-item-full {
+    font-size: 125%;
     -webkit-line-clamp: inherit !important;
 }
 
-.r-item-full-text {
-    font-size: 90%;
+.r-list-item-full {
+    z-index: 100;
+    background: rgba(200, 200, 200, 0.2) !important;
 }

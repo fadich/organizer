@@ -15,9 +15,12 @@ import {TodoItemComponent} from './todo-item.component';
 
 export class GroupListComponent {
 
-    public constructor (
-        public todoItemService:TodoItemService
-    ) {  }
+    public static fullViewedItem:number = 0;
+    public todoItemService:TodoItemService;
+
+    public constructor () {
+        this.todoItemService = new TodoItemService();
+    }
 
     public isStatusHidden(status:number):boolean {
         if (status != 1 && (status == TodoItemService.filter || TodoItemService.filter == 0)) {
@@ -25,5 +28,14 @@ export class GroupListComponent {
         }
 
         return status != TodoItemService.filter;
+    }
+
+    public fullViewItem(itemId:number):GroupListComponent {
+        GroupListComponent.fullViewedItem = GroupListComponent.fullViewedItem == itemId ? 0 : itemId;
+        return this;
+    }
+
+    public isFullView(itemId:number):boolean {
+        return GroupListComponent.fullViewedItem == itemId;
     }
 }

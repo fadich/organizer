@@ -1,4 +1,5 @@
-<div class="r-item-body {{ isFullView(item.id) ? 'r-item-body-full' : '' }}" (click)="fullViewItem(item.id)">
+<div class="r-item-body {{ itemList.isFullView(item.id) ? 'r-item-body-full' : '' }}"
+     (click)="itemList.fullViewItem(item.id)">
     <div class="r-item-check">
         <div class="checkbox">
             <label>
@@ -9,7 +10,8 @@
         </div>
     </div>
     <div class="r-item-content">
-        <p class="list-group-item-heading r-item-title {{ isFullView(item.id) ? 'r-item-full' : '' }}">
+        <p class="list-group-item-heading r-item-title
+                  {{ itemList.isFullView(item.id) ? 'r-item-full' : '' }}">
             <i *ngIf="item.isPostponed()">
                 {{ item.title }}
             </i>
@@ -17,15 +19,15 @@
                 {{ item.title }}
             </strike>
             <span *ngIf="item.isActive()">
-                        {{ item.title }}
-                    </span>
+                {{ item.title }}
+            </span>
         </p>
 
-        <item-actions [item]="item"></item-actions>
+        <item-actions [item]="item" *ngIf="!itemList.isFullView(item.id)"></item-actions>
         <br><br>
 
         <p class="list-group-item-text
-                  {{ isFullView(item.id) ? 'r-item-full r-item-full-text' : 'r-item-body-text' }}">
+                  {{ itemList.isFullView(item.id) ? 'r-item-full r-item-full-text' : 'r-item-body-text' }}">
             <i *ngIf="item.isPostponed()">
                 {{ item.content }}
             </i>
@@ -33,8 +35,8 @@
                 {{ item.content }}
             </strike>
             <span *ngIf="item.isActive()">
-                        {{ item.content }}
-                    </span>
+                {{ item.content }}
+            </span>
         </p>
     </div>
 </div>
