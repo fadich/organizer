@@ -12,13 +12,10 @@ import { TodoItemService } from '../services/todo-item.service';
 })
 
 export class HeaderNavComponent {
-    public moreApps:MoreAppsService;
-    public todoItem:TodoItemService;
-
-    constructor () {
-        this.moreApps = new MoreAppsService();
-        this.todoItem = new TodoItemService();
-    }
+    constructor (
+        public moreApps:MoreAppsService,
+        public todoItem:TodoItemService
+    ) {  }
 
     public activeFilter(status:number):string {
         return TodoItemService.filter == status ? 'active' : '';

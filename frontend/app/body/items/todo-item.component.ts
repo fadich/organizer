@@ -13,9 +13,8 @@ import { GroupListComponent } from './group-list.component';
 
 export class TodoItemComponent {
     @Input() item:TodoItem;
-    public itemList:GroupListComponent;
 
-    constructor () {
-        this.itemList = new GroupListComponent();
+    public isFullView(itemId:number):boolean {
+        return GroupListComponent.fullViewedItem == itemId;
     }
 }

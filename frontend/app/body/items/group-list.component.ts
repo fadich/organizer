@@ -16,11 +16,8 @@ import {TodoItemComponent} from './todo-item.component';
 export class GroupListComponent {
 
     public static fullViewedItem:number = 0;
-    public todoItemService:TodoItemService;
 
-    public constructor () {
-        this.todoItemService = new TodoItemService();
-    }
+    public constructor (public todoItemService:TodoItemService) {  }
 
     public isStatusHidden(status:number):boolean {
         if (status != 1 && (status == TodoItemService.filter || TodoItemService.filter == 0)) {
