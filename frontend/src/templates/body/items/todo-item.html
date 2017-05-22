@@ -1,5 +1,4 @@
-<div class="r-item-body {{ itemList.isFullView(item.id) ? 'r-item-body-full' : '' }}"
-     (click)="itemList.fullViewItem(item.id)">
+<div class="r-item-body {{ itemList.isFullView(item.id) ? 'r-item-body-full' : '' }}">
     <div class="r-item-check">
         <div class="checkbox">
             <label>
@@ -11,7 +10,8 @@
     </div>
     <div class="r-item-content">
         <p class="list-group-item-heading r-item-title
-                  {{ itemList.isFullView(item.id) ? 'r-item-full' : '' }}">
+                  {{ itemList.isFullView(item.id) ? 'r-item-full' : '' }}"
+           (click)="itemList.fullViewItem(item.id)">
             <i *ngIf="item.isPostponed()">
                 {{ item.title }}
             </i>
@@ -27,7 +27,8 @@
         <br><br>
 
         <p class="list-group-item-text
-                  {{ itemList.isFullView(item.id) ? 'r-item-full r-item-full-text' : 'r-item-body-text' }}">
+                  {{ itemList.isFullView(item.id) ? 'r-item-full r-item-full-text' : 'r-item-body-text' }}"
+           (click)="itemList.fullViewItem(item.id)">
             <i *ngIf="item.isPostponed()">
                 {{ item.content }}
             </i>
