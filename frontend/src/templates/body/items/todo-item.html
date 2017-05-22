@@ -24,7 +24,8 @@
         <item-actions [item]="item"></item-actions>
         <br><br>
 
-        <p class="list-group-item-text {{ isFullView(item.id) ? 'r-item-full-text' : 'r-item-body-text' }}">
+        <p class="list-group-item-text
+                  {{ isFullView(item.id) ? 'r-item-full r-item-full-text' : 'r-item-body-text' }}">
             <i *ngIf="item.isPostponed()">
                 {{ item.content }}
             </i>

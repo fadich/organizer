@@ -111,5 +111,4 @@ html, body {
 
 .r-item-full-text {
     font-size: 90%;
-    -webkit-line-clamp: inherit !important;
 }
