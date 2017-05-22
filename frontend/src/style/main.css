@@ -104,3 +104,12 @@ html, body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.r-item-full {
+    -webkit-line-clamp: inherit !important;
+}
+
+.r-item-full-text {
+    font-size: 90%;
+    -webkit-line-clamp: inherit !important;
+}
