@@ -175,6 +175,7 @@ class ItemController extends Controller
         }
 
         $csrf = $this->getCsrfToken($form->getName());
+
         return $this->json([
             'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($form->getErrors()),
@@ -207,6 +208,7 @@ class ItemController extends Controller
     {
         /** @var \Symfony\Component\Security\Csrf\CsrfTokenManager $csrf */
         $csrf = $this->get("security.csrf.token_manager");
+
         return $csrf;
     }
 
