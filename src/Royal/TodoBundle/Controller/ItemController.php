@@ -109,7 +109,7 @@ class ItemController extends Controller
         if ($item->getStatus() === TodoItem::STATUS_DELETED) {
             return $this->json([
                 'errors' => $this->jsonEncode(["Item not found or deleted"]),
-            ]);
+            ], 404);
         }
 
         return $this->json([
@@ -130,7 +130,7 @@ class ItemController extends Controller
         if ($item->getStatus() === TodoItem::STATUS_DELETED) {
             return $this->json([
                 'errors' => $this->jsonEncode(["Item not found or deleted"]),
-            ]);
+            ], 404);
         }
 
         $editForm = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item);
