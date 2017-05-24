@@ -24,6 +24,14 @@
         </p>
 
         <item-actions [item]="item" *ngIf="!isFullView(item.id)"></item-actions>
+
+        <button class="btn btn-link pull-right r-close-full-view-btn"
+            data-toggle="tooltip"
+            title="Close"
+            *ngIf="isFullView(item.id)"
+            (click)="defaultViewItem(item.id)">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
         <br><br>
 
         <p class="list-group-item-text

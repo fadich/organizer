@@ -1,6 +1,6 @@
 <ul class="list-group">
 
-    <li class="list-group-item">
+    <li class="{{ isStatusHidden(4) ? '' : 'list-group-item' }}" [hidden]="isStatusHidden(4)">
         <form action="">
 
             <div class="form-group" [hidden]="true">

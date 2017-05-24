@@ -16,7 +16,7 @@ export class TodoItemService {
     protected static temp:object = [];
     protected static ajaxAllowed:boolean = true;
 
-    constructor (protected http:Http) {}
+    constructor (protected http:Http) {  }
 
     public getItems():TodoItem[] {
         if (!TodoItemService.items.length) {
@@ -57,5 +57,17 @@ export class TodoItemService {
                 error => console.error("Error: \"" + (error.message || "unknown error") + "\""),
                 () => console.log('Items gotten.')
             );
+    }
+
+    public static initFilter():void {
+        let filter:number = +localStorage.getItem('status-filter');
+        if (filter) {
+            TodoItemService.filter = filter;
+        }
+    }
+
+    public static setFilter(status:number):void {
+        TodoItemService.filter = status;
+        localStorage.setItem('status-filter', status.toString());
     }
 }
