@@ -55,6 +55,7 @@ html, body {
     max-width: 150px;
     display: table-cell;
     vertical-align: middle;
+    overflow: hidden;
 }
 
 .r-item-content>.r-item-title {
@@ -111,6 +112,11 @@ html, body {
     -webkit-line-clamp: inherit !important;
 }
 
+.r-item-full:hover {
+    overflow: auto;
+    float: none;
+}
+
 .r-list-item-full {
     z-index: 100;
     background: rgba(200, 200, 200, 0.2) !important;
@@ -126,9 +132,6 @@ html, body {
 
 .r-item-full-text:hover {
     overflow: auto;
-}
-
-.r-close-full-view-btn {
 }
 
 .r-close-full-view-btn > span {
