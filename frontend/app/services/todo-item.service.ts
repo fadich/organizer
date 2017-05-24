@@ -3,11 +3,12 @@ import { TodoItem } from '../entities/todo-item';
 import {Http} from 'angular2/http';
 import 'rxjs/add/operator/map'
 import {ConfigService} from "./config.service";
+import {PreloaderComponent} from "../body/preloader.component";
 
 @Injectable()
 
 export class TodoItemService {
-    public http:Http;
+    public preloder:PreloaderComponent;
 
     public static filter:number = 0;
     public static GET_ITEMS_URL = 'http://localhost/learn/organizer/web/royal/todo/item/';
@@ -16,7 +17,9 @@ export class TodoItemService {
     protected static temp:object = [];
     protected static ajaxAllowed:boolean = true;
 
-    constructor (protected http:Http) {  }
+    constructor (protected http:Http) {
+        this.preloder = new PreloaderComponent();
+    }
 
     public getItems():TodoItem[] {
         if (!TodoItemService.items.length) {
@@ -44,6 +47,7 @@ export class TodoItemService {
             return;
         }
 
+        this.preloder.show();
         TodoItemService.ajaxAllowed = false;
         this.http.get(TodoItemService.GET_ITEMS_URL)
             .map(res => res.json())
@@ -55,7 +59,7 @@ export class TodoItemService {
                     TodoItemService.ajaxAllowed = true;
                 })(success),
                 error => console.error("Error: \"" + (error.message || "unknown error") + "\""),
-                () => console.log('Items gotten.')
+                () => this.preloder.hide()
             );
     }
 

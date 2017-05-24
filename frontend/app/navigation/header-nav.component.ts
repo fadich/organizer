@@ -41,7 +41,7 @@ export class HeaderNavComponent {
 
     public setFilter(status:number) {
         if (status && !this.countItems([status])) {
-            status = 0;
+            return;
         }
 
         TodoItemService.setFilter(status);
