@@ -1,7 +1,7 @@
 <div class="r-item-body {{ isFullView(item.id) ? 'r-item-body-full' : '' }}">
     <div class="r-item-check">
         <div class="checkbox">
-            <label>
+            <label [hidden]="isFullView(item.id)">
                 <input type="checkbox"
                        class="__regular-checkbox"
                        [checked]="item.isDone()"/>

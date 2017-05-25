@@ -11,7 +11,7 @@ export class TodoItemService {
     public preloder:PreloaderComponent;
 
     public static filter:number = 0;
-    public static GET_ITEMS_URL = 'http://192.168.8.3/learn/organizer/web/royal/todo/item/';
+    public static GET_ITEMS_URL = '/learn/organizer/web/royal/todo/item/';
 
     protected static items:TodoItem[] = [];
     protected static temp:object = [];
