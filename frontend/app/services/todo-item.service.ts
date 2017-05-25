@@ -11,7 +11,7 @@ export class TodoItemService {
     public preloder:PreloaderComponent;
 
     public static filter:number = 0;
-    public static GET_ITEMS_URL = 'http://localhost/learn/organizer/web/royal/todo/item/';
+    public static GET_ITEMS_URL = 'http://192.168.8.3/learn/organizer/web/royal/todo/item/';
 
     protected static items:TodoItem[] = [];
     protected static temp:object = [];
@@ -52,13 +52,17 @@ export class TodoItemService {
         this.http.get(TodoItemService.GET_ITEMS_URL)
             .map(res => res.json())
             .subscribe(
-                success => (function (success) {
+                success => (function (success, preloder) {
                     TodoItemService.temp = success.items;
                     ConfigService.get('0').token = success.token;
 
                     TodoItemService.ajaxAllowed = true;
-                })(success),
-                error => console.error("Error: \"" + (error.message || "unknown error") + "\""),
+                    preloder.hide();
+                })(success, this.preloder),
+                error => (function (error, preloder) {
+                    alert("Error: \"" + (error.message || "unknown error") + "\" with code: " + error.status);
+                    preloder.hide();
+                })(error, this.preloder),
                 () => this.preloder.hide()
             );
     }
