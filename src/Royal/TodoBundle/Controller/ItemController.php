@@ -40,17 +40,25 @@ class ItemController extends Controller
      */
     public function indexAction()
     {
+        /** @var \Doctrine\Common\Persistence\ObjectManager $em */
         $em = $this->getDoctrine()->getManager();
 
+        /** @var \Royal\TodoBundle\Entity\TodoItem[] $items */
         $items = $em->getRepository('RoyalTodoBundle:TodoItem')->findAll();
-        foreach ($items as &$item) {
-            $item = $this->jsonEncode($item);
+
+        $array_items = [];
+        foreach ($items as $item) {
+            if ($item->getStatus() == TodoItem::STATUS_DELETED) {
+                continue;
+            }
+            $array_items[] = $this->jsonEncode($item);
         }
 
         $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', new TodoItem());
         $csrf = $this->getCsrfToken($form->getName());
+
         return $this->json([
-            'items' => $items,
+            'items' => $array_items,
             'token' => $csrf,
         ]);
     }
@@ -98,6 +106,12 @@ class ItemController extends Controller
      */
     public function showAction(TodoItem $item)
     {
+        if ($item->getStatus() === TodoItem::STATUS_DELETED) {
+            return $this->json([
+                'errors' => $this->jsonEncode(["Item not found or deleted"]),
+            ], 404);
+        }
+
         return $this->json([
             'item' => $this->jsonEncode($item),
         ]);
@@ -113,6 +127,12 @@ class ItemController extends Controller
      */
     public function editAction(Request $request, TodoItem $item)
     {
+        if ($item->getStatus() === TodoItem::STATUS_DELETED) {
+            return $this->json([
+                'errors' => $this->jsonEncode(["Item not found or deleted"]),
+            ], 404);
+        }
+
         $editForm = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item);
         $editForm->handleRequest($request);
 
@@ -155,6 +175,7 @@ class ItemController extends Controller
         }
 
         $csrf = $this->getCsrfToken($form->getName());
+
         return $this->json([
             'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($form->getErrors()),
@@ -187,6 +208,7 @@ class ItemController extends Controller
     {
         /** @var \Symfony\Component\Security\Csrf\CsrfTokenManager $csrf */
         $csrf = $this->get("security.csrf.token_manager");
+
         return $csrf;
     }
 

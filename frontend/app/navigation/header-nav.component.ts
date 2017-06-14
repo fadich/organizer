@@ -1,6 +1,7 @@
 import { Component } from 'angular2/core';
 import { MoreAppsService } from '../services/more-apps.service';
 import { TodoItemService } from '../services/todo-item.service';
+import {GroupListComponent} from "../body/items/group-list.component";
 
 @Component({
     selector: 'header',
@@ -12,12 +13,13 @@ import { TodoItemService } from '../services/todo-item.service';
 })
 
 export class HeaderNavComponent {
-    public moreApps:MoreAppsService;
-    public todoItem:TodoItemService;
+    protected columnsCounter:Array<number, number> = [];
 
-    constructor () {
-        this.moreApps = new MoreAppsService();
-        this.todoItem = new TodoItemService();
+    constructor (
+        public moreApps:MoreAppsService,
+        public todoItem:TodoItemService
+    ) {
+        TodoItemService.initFilter();
     }
 
     public activeFilter(status:number):string {
@@ -26,18 +28,36 @@ export class HeaderNavComponent {
 
     public countItems(statuses:number[]):number {
         let count:number = 0;
-        let items = this.todoItem.getItems();
 
-        for (let item of items) {
-            if (~statuses.indexOf(item.status)) {
-                count++;
+        for (let status of statuses) {
+            if (!(status in this.columnsCounter) || !this.columnsCounter[status]) {
+                this.columnsCounter[status] = this._countItems(status);
             }
+            count += this.columnsCounter[status];
         }
 
         return count;
     }
 
     public setFilter(status:number) {
-        TodoItemService.filter = status;
+        if (status && !this.countItems([status])) {
+            return;
+        }
+
+        TodoItemService.setFilter(status);
+        GroupListComponent.resetFullItemsView();
+    }
+
+    protected _countItems(status:number):number {
+        let count:number = 0;
+        let items = this.todoItem.getItems();
+
+        for (let item of items) {
+            if (item.status == status) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

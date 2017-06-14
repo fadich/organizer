@@ -1,13 +1,27 @@
 <ul class="list-group">
 
-    <div [hidden]="isHiddenForm()">
-        <li class="list-group-item">
-            <div class="r-item-form"></div>
-        </li>
-    </div>
+    <li class="{{ isStatusHidden(4) ? '' : 'list-group-item' }}" [hidden]="isStatusHidden(4)">
+        <form action="">
+
+            <div class="form-group" [hidden]="true">
+                <label for="new-item-title">Title</label>
+                <input type="text" class="form-control" id="new-item-title">
+                <br>
+                <label for="new-item-body">Body</label>
+                <textarea class="form-control" rows="5" id="new-item-body" style="max-width: 100%"></textarea>
+            </div>
+
+            <button type="submit" class="btn r-new-item" id="new-item-submit">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </form>
+    </li>
 
     <li *ngFor="let item of todoItemService.getItems()"
-        class="{{ isStatusHidden(item.status) ? '' : 'list-group-item' }} r-item {{ item.getStatusClass() }}"
+        class="r-item
+               {{ isStatusHidden(item.status) ? '' : 'list-group-item' }}
+               {{ item.getStatusClass() }}
+               {{ isFullView(item.id) ? 'r-list-item-full' : '' }}"
         [hidden]="isStatusHidden(item.status)"
         [item]="item">
 

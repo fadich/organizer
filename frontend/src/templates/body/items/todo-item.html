@@ -1,7 +1,7 @@
-<div class="r-item-body">
+<div class="r-item-body {{ isFullView(item.id) ? 'r-item-body-full' : '' }}">
     <div class="r-item-check">
         <div class="checkbox">
-            <label>
+            <label [hidden]="isFullView(item.id)">
                 <input type="checkbox"
                        class="__regular-checkbox"
                        [checked]="item.isDone()"/>
@@ -9,7 +9,9 @@
         </div>
     </div>
     <div class="r-item-content">
-        <p class="list-group-item-heading r-item-title">
+        <p class="list-group-item-heading r-item-title
+                  {{ isFullView(item.id) ? 'r-item-full' : '' }}"
+           (click)="fullViewItem(item.id)">
             <i *ngIf="item.isPostponed()">
                 {{ item.title }}
             </i>
@@ -17,14 +19,24 @@
                 {{ item.title }}
             </strike>
             <span *ngIf="item.isActive()">
-                        {{ item.title }}
-                    </span>
+                {{ item.title }}
+            </span>
         </p>
 
-        <item-actions [item]="item"></item-actions>
+        <item-actions [item]="item" *ngIf="!isFullView(item.id)"></item-actions>
+
+        <button class="btn btn-link pull-right r-close-full-view-btn"
+            data-toggle="tooltip"
+            title="Close"
+            *ngIf="isFullView(item.id)"
+            (click)="defaultViewItem(item.id)">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
         <br><br>
 
-        <p class="list-group-item-text r-item-body-text">
+        <p class="list-group-item-text
+                  {{ isFullView(item.id) ? 'r-item-full r-item-full-text' : 'r-item-body-text' }}"
+           (click)="fullViewItem(item.id)">
             <i *ngIf="item.isPostponed()">
                 {{ item.content }}
             </i>
@@ -32,8 +44,8 @@
                 {{ item.content }}
             </strike>
             <span *ngIf="item.isActive()">
-                        {{ item.content }}
-                    </span>
+                {{ item.content }}
+            </span>
         </p>
     </div>
 </div>

@@ -1,6 +1,8 @@
 import { Component } from 'angular2/core';
 import { HeaderNavComponent } from './navigation/header-nav.component'
 import { MainComponent } from './body/main.component'
+import { TodoItemService } from './services/todo-item.service'
+import {PreloaderComponent} from "./body/preloader.component";
 
 @Component({
     selector: 'todo',
@@ -14,4 +16,4 @@ import { MainComponent } from './body/main.component'
     ],
 })
 
-export class AppComponent { }
+export class AppComponent {  }

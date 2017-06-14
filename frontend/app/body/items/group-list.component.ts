@@ -17,9 +17,9 @@ import {ItemFormComponent} from './item-form.component';
 
 export class GroupListComponent {
 
-    public constructor (
-        public todoItemService:TodoItemService
-    ) {  }
+    public static fullViewedItem:object = [];
+
+    public constructor (public todoItemService:TodoItemService) {  }
 
     public isStatusHidden(status:number):boolean {
         if (status != 1 && (status == TodoItemService.filter || TodoItemService.filter == 0)) {
@@ -27,6 +27,13 @@ export class GroupListComponent {
         }
 
         return status != TodoItemService.filter;
+    }
+
+    public isFullView(itemId:number):boolean {
+        return GroupListComponent.fullViewedItem[itemId] == itemId;
+    }
+    public static resetFullItemsView():void {
+        GroupListComponent.fullViewedItem = [];
     }
 
     public isHiddenForm():boolean {
