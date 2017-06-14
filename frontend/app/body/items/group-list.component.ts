@@ -17,7 +17,7 @@ import {ItemFormComponent} from './item-form.component';
 
 export class GroupListComponent {
 
-    public static fullViewedItem:object = [];
+    public static fullViewedItem:Array<number> = [];
 
     public constructor (public todoItemService:TodoItemService) {  }
 

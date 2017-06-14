@@ -11,17 +11,17 @@ export class TodoItemService {
     public preloder:PreloaderComponent;
 
     public static filter:number = 0;
-    public static GET_ITEMS_URL = '/learn/organizer/web/royal/todo/item/';
+    public static GET_ITEMS_URL = 'http://127.0.0.1/learn/organizer/web/royal/todo/item/';
 
-    protected static items:TodoItem[] = [];
-    protected static temp:object = [];
+    protected static items:Array<TodoItem> = [];
+    protected static temp:Array<any> = [];
     protected static ajaxAllowed:boolean = true;
 
     constructor (protected http:Http) {
         this.preloder = new PreloaderComponent();
     }
 
-    public getItems():TodoItem[] {
+    public getItems():Array<any> {
         if (!TodoItemService.items.length) {
             this.requestItems();
             for (let item of TodoItemService.temp) {
