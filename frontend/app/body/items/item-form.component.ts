@@ -6,18 +6,23 @@ import {Component, Input} from 'angular2/core';
 })
 
 export class ItemFormComponent {
+    @Input() id:number = 0;
     @Input() title:string = '';
     @Input() content:string = '';
 
     protected hidden = true;
 
-    public submitButton():void {
+    public submitClick():void {
         if (this.isHidden()) {
             this.hidden = false;
             return;
         }
 
-        // TODO: Submit form.
+        if (this.id) {
+            this.submitFormEdit();
+        } else {
+            this.submitFormCreate()
+        }
     }
 
     public isHidden():boolean {
@@ -26,5 +31,21 @@ export class ItemFormComponent {
 
     public hideForm():void {
         this.hidden = true;
+    }
+
+    public isValid():boolean {
+        if (this.title.length < 3) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected submitFormEdit():void {
+        // TODO: AJAX-submit.
+    }
+
+    protected submitFormCreate():void {
+        // TODO: AJAX-submit.
     }
 }

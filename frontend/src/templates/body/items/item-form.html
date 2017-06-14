@@ -15,7 +15,8 @@
 
     </div>
 
-    <button type="submit" class="btn r-new-item" id="new-item-submit" (click)="submitButton()">
+    <button type="submit" class="btn r-new-item" id="new-item-submit" (click)="submitClick()"
+            [disabled]="!isHidden() && !isValid()">
         <span class="glyphicon glyphicon-plus"></span>
     </button>
 </form>

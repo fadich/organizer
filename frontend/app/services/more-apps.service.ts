@@ -17,7 +17,7 @@ export class MoreAppsService {
         return this.apps;
     }
 
-    protected static requestApps():object[] {
+    protected static requestApps():Array<any> {
         return [
             {
                 id: 1,
@@ -36,7 +36,7 @@ export class MoreAppsService {
             },
             {
                 id: 4,
-                title: "Application with long title text",
+                title: "Application having long title text",
                 url: "#",
             },
         ];

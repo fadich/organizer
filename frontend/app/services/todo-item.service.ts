@@ -11,7 +11,7 @@ export class TodoItemService {
     public preloder:PreloaderComponent;
 
     public static filter:number = 0;
-    public static GET_ITEMS_URL = 'http://127.0.0.1/learn/organizer/web/royal/todo/item/';
+    public static GET_ITEMS_URL = 'http://org.loc/royal/todo/item/';
 
     protected static items:Array<TodoItem> = [];
     protected static temp:Array<any> = [];
@@ -33,7 +33,7 @@ export class TodoItemService {
                         item['status'],
                         item['userId'],
                         item['createdAt'],
-                        item['updatedAt'],
+                        item['updatedAt']
                     )
                 )
             }

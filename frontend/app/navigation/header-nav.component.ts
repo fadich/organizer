@@ -13,7 +13,7 @@ import {GroupListComponent} from "../body/items/group-list.component";
 })
 
 export class HeaderNavComponent {
-    protected columnsCounter:Array<number, number> = [];
+    protected columnsCounter:Array<number> = [];
 
     constructor (
         public moreApps:MoreAppsService,
