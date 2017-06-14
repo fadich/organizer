@@ -3,6 +3,7 @@
 namespace Royal\TodoBundle\Controller;
 
 use Royal\TodoBundle\Entity\TodoItem;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -230,5 +231,17 @@ class ItemController extends Controller
     protected function jsonEncode($data)
     {
         return json_decode($this->serializer->serialize($data, 'json'), true);
+    }
+
+    /**
+     * Allow origin AJAX.
+     *
+     * {@inheritdoc}
+     */
+    public function json($data, $status = 200, $headers = [], $context = []) {
+        $response = parent::json($data, $status, $headers, $context);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
     }
 }
