@@ -171,3 +171,7 @@ html, body {
     transform: translateY(-50%) translateX(-50%);
     left: 50%;
 }
+
+.r-cursor-pointer {
+    cursor: pointer;
+}

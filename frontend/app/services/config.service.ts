@@ -6,7 +6,7 @@ export class ConfigService {
     public token:string;
 
 
-    protected static config:Array<string, ConfigService> = [];
+    protected static config:Object = [];
 
     public static get(key:string):ConfigService {
         if (ConfigService.config[key] === undefined) {

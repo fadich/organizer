@@ -11,7 +11,7 @@ export class TodoItemService {
     public preloder:PreloaderComponent;
 
     public static filter:number = 0;
-    public static GET_ITEMS_URL = 'http://org.loc/royal/todo/item/';
+    public static ITEMS_URL = 'http://org.loc/royal/todo/item/';
 
     protected static items:Array<TodoItem> = [];
     protected static temp:Array<any> = [];
@@ -49,7 +49,7 @@ export class TodoItemService {
 
         this.preloder.show();
         TodoItemService.ajaxAllowed = false;
-        this.http.get(TodoItemService.GET_ITEMS_URL)
+        this.http.get(TodoItemService.ITEMS_URL)
             .map(res => res.json())
             .subscribe(
                 success => (function (success, preloder) {
