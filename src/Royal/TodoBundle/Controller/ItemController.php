@@ -80,7 +80,9 @@ class ItemController extends Controller
             ->setCreatedAt(time())
             ->setUpdatedAt(time());
 
-        $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item);
+        $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item, [
+            'csrf_protection' => false,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -95,7 +97,7 @@ class ItemController extends Controller
 
         return $this->json([
             'errors' => $this->jsonEncode($form->getErrors()),
-        ]);
+        ], 400);
     }
 
     /**
@@ -134,7 +136,9 @@ class ItemController extends Controller
             ], 404);
         }
 
-        $editForm = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item);
+        $editForm = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item, [
+            'csrf_protection' => false,
+        ]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -148,7 +152,7 @@ class ItemController extends Controller
         return $this->json([
             'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($editForm->getErrors()),
-        ]);
+        ], 400);
     }
 
     /**
@@ -180,8 +184,8 @@ class ItemController extends Controller
         return $this->json([
             'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($form->getErrors()),
-            'token' => $csrf,
-        ]);
+//            'token' => $csrf,
+        ], 400);
     }
 
     /**

@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand">ROYAL TODO LIST</a>
+            <a href="/" class="navbar-brand">ROYAL TODO LIST</a>
         </div>
 
         <div class="collapse navbar-collapse" id="myNavbar">
@@ -15,25 +15,25 @@
             <ul class="nav navbar-nav">
                 <li class="{{ activeFilter(0) }}">
                     <a (click)="setFilter(0)" class="r-cursor-pointer">
-                        <span class="glyphicon glyphicon-list"></span> All ({{ countItems([2,3,4]) }})
+                        <span class="glyphicon glyphicon-list"></span> All
                     </a>
                 </li>
                 <li class="{{ activeFilter(4) }}">
                     <a (click)="setFilter(4)"
                         class="r-cursor-pointer {{ !countItems([4]) ? 'r-disabled' : '' }}">
-                        <span class="glyphicon glyphicon-bell"></span> Active ({{ countItems([4]) }})
+                        <span class="glyphicon glyphicon-bell"></span> Active
                     </a>
-                </li>
+                </li>last
                 <li class="{{ activeFilter(3) }}">
                     <a (click)="setFilter(3)"
                         class="r-cursor-pointer {{ !countItems([3]) ? 'r-disabled' : '' }}">
-                        <span class="glyphicon glyphicon-time"></span> Postponed ({{ countItems([3]) }})
+                        <span class="glyphicon glyphicon-time"></span> Postponed
                     </a>
                 </li>
                 <li class="{{ activeFilter(2) }}">
                     <a (click)="setFilter(2)"
                         class="r-cursor-pointer {{ !countItems([2]) ? 'r-disabled' : '' }}">
-                        <span class="glyphicon glyphicon-check"></span> Done ({{ countItems([2]) }})
+                        <span class="glyphicon glyphicon-check"></span> Done
                     </a>
                 </li>
             </ul>

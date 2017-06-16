@@ -13,7 +13,7 @@ export class TodoItemService {
     public static filter:number = 0;
     public static ITEMS_URL = 'http://org.loc/royal/todo/item/';
 
-    protected static items:Array<TodoItem> = [];
+    public static items:Array<TodoItem> = [];
     protected static temp:Array<any> = [];
     protected static ajaxAllowed:boolean = true;
 
