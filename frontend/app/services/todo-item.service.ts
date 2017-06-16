@@ -24,7 +24,9 @@ export class TodoItemService {
     public getItems():Array<any> {
         if (!TodoItemService.items.length) {
             this.requestItems();
-            for (let item of TodoItemService.temp) {
+            for (let i = TodoItemService.temp.length - 1; i >= 0; i--) {
+                let item = TodoItemService.temp[i];
+
                 TodoItemService.items.push(
                     new TodoItem(
                         item['id'],
