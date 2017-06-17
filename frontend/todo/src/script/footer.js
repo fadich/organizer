@@ -1,17 +1,17 @@
-;(function MainModule(exports) {
+;(function FooterModule(exports) {
 
-    var $selector = $('main');
+    var $selector = $('footer');
     var $body = $('body');
     var template = '';
 
     $body.on('buildApp', function (ev) {
-        $.get('template/main', function (response) {
+        $.get('template/footer', function (response) {
             template = response;
-            $body.trigger('buildMain');
+            $body.trigger('buildFooter');
         });
     });
 
-    $body.on('buildMain', function (ev) {
+    $body.on('buildFooter', function (ev) {
         $selector.html(template);
     });
 
@@ -19,6 +19,6 @@
         return function () {}
     }
 
-    exports.main = build();
+    exports.footer = build();
 
 })(typeof window === 'undefined' ? module.exports : window);
