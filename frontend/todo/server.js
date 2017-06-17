@@ -1,4 +1,4 @@
-var express    = require('express');
+var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 
@@ -15,10 +15,25 @@ app.get("/", function(req, res) {
 app.get("/src/:type/:file", function(req, res) {
     var type = req.params.type;
     var file = req.params.file;
+    var possibleTypes = [
+        'style',
+        'script',
+        'img'
+    ];
 
-    if (type === 'style') {
+    if (~possibleTypes.indexOf(type)) {
         res.sendFile(path.resolve(__dirname + "/src/" + type + "/" + file));
+
+        return;
     }
+
+    res.send('Bad request', 400);
+});
+
+app.get("/template/:name", function(req, res) {
+    var name = req.params.name;
+
+    res.sendFile(path.resolve(__dirname + "/templates/" + name + ".html"));
 });
 
 app.listen("3000", function () {
