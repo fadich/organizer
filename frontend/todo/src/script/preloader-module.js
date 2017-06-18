@@ -1,7 +1,8 @@
 ;(function PreloaderModule(exports) {
+    "use strict";
+
 
     var $selector = $('preloader');
-
 
     function behaviours() {
         var shows = 0;
@@ -29,6 +30,6 @@
         }
     }
 
-    exports.preloader = behaviours();
+    exports._rPreloader = behaviours();
 
 })(typeof window === 'undefined' ? module.exports : window);

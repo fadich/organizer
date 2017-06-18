@@ -1,17 +1,19 @@
 ;(function FooterModule(exports) {
+    "use strict";
+
 
     var $selector = $('footer');
-    var $body = $('body');
+    var $doc = $(document);
     var template = '';
 
-    $body.on('buildApp', function (ev) {
+    $doc.on('buildApp', function (ev) {
         $.get('template/footer', function (response) {
             template = response;
-            $body.trigger('buildFooter');
+            $doc.trigger('buildFooter');
         });
     });
 
-    $body.on('buildFooter', function (ev) {
+    $doc.on('buildFooter', function (ev) {
         $selector.html(template);
     });
 
@@ -19,6 +21,6 @@
         return function () {}
     }
 
-    exports.footer = build();
+    exports._rFooter = build();
 
 })(typeof window === 'undefined' ? module.exports : window);

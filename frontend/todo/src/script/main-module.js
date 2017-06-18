@@ -1,17 +1,19 @@
 ;(function MainModule(exports) {
+    "use strict";
+
 
     var $selector = $('main');
-    var $body = $('body');
+    var $doc = $(document);
     var template = '';
 
-    $body.on('buildApp', function (ev) {
+    $doc.on('buildApp', function (ev) {
         $.get('template/main', function (response) {
             template = response;
-            $body.trigger('buildMain');
+            $doc.trigger('buildMain');
         });
     });
 
-    $body.on('buildMain', function (ev) {
+    $doc.on('buildMain', function (ev) {
         $selector.html(template);
     });
 
@@ -19,6 +21,6 @@
         return function () {}
     }
 
-    exports.main = build();
+    exports._rMain = build();
 
 })(typeof window === 'undefined' ? module.exports : window);

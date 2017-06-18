@@ -1,17 +1,19 @@
 ;(function HeaderModule(exports) {
+    "use strict";
+
 
     var $selector = $('header');
-    var $body = $('body');
+    var $doc = $(document);
     var template = '';
 
-    $body.on('buildApp', function (ev) {
+    $doc.on('buildApp', function (ev) {
         $.get('template/header', function (response) {
             template = response;
-            $body.trigger('buildHeader');
+            $doc.trigger('buildHeader');
         });
     });
 
-    $body.on('buildHeader', function (ev) {
+    $doc.on('buildHeader', function (ev) {
         $selector.html(template);
     });
 
@@ -19,6 +21,6 @@
         return function () {}
     }
 
-    exports.header = build();
+    exports._rHeader = build();
 
 })(typeof window === 'undefined' ? module.exports : window);
