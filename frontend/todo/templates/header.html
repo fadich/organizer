@@ -11,46 +11,57 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a class="r-cursor-pointer">
-                        <span class="glyphicon glyphicon-list"></span> All (4)
+                    <a class="r-cursor-pointer ::disabledAll">
+                        <span class="glyphicon glyphicon-list"></span> All (::all)
                     </a>
                 </li>
                 <li>
-                    <a class="r-cursor-pointer">
-                        <span class="glyphicon glyphicon-bell"></span> Active (2)
+                    <a class="r-cursor-pointer ::disabledActive">
+                        <span class="glyphicon glyphicon-bell"></span> Active (::active)
                     </a>
                 </li>
                 <li>
-                    <a class="r-cursor-pointer">
-                        <span class="glyphicon glyphicon-time"></span> Postponed (1)
+                    <a class="r-cursor-pointer ::disabledPostponed">
+                        <span class="glyphicon glyphicon-time"></span> Postponed (::postponed)
                     </a>
                 </li>
                 <li>
-                    <a class="r-cursor-pointer">
-                        <span class="glyphicon glyphicon-check"></span> Done (1)
+                    <a class="r-cursor-pointer ::disabledDone">
+                        <span class="glyphicon glyphicon-check"></span> Done (::done)
                     </a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle r-no-select" data-toggle="dropdown" href="#">
                         <span class="glyphicon glyphicon-th"></span> More
                     </a>
                     <ul class="dropdown-menu r-nav-more">
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
+                        <li class="pickList col-sm-4 text-center r-no-select" data-toggle="tooltip"
+                            title="Item having very long name...">
+                            <a href="http://127.0.0.1/learn/todo.html" class="r-more-app-link">
+                                Item having very long name...
+                            </a>
                         </li>
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
+                        <li class="pickList col-sm-4 text-center r-no-select" data-toggle="tooltip" title="Item">
+                            <a href="http://127.0.0.1/learn/todo.html" class="r-more-app-link">
+                                Item
+                            </a>
                         </li>
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
+                        <li class="pickList col-sm-4 text-center r-no-select" data-toggle="tooltip" title="Item">
+                            <a href="http://127.0.0.1/learn/todo.html" class="r-more-app-link">
+                                Item
+                            </a>
                         </li>
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
+                        <li class="pickList col-sm-4 text-center r-no-select" data-toggle="tooltip" title="Item">
+                            <a href="http://127.0.0.1/learn/todo.html" class="r-more-app-link">
+                                Item
+                            </a>
                         </li>
-                        <li class="pickList col-sm-4 text-center">
-                            <a href="http://127.0.0.1/learn/todo.html">Item</a>
+                        <li class="pickList col-sm-4 text-center r-no-select" data-toggle="tooltip" title="Item">
+                            <a href="http://127.0.0.1/learn/todo.html" class="r-more-app-link">
+                                Item
+                            </a>
                         </li>
                     </ul>
                 </li>

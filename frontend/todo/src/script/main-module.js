@@ -18,9 +18,15 @@
     });
 
     function build() {
-        return function () {}
+
     }
 
-    exports._rMain = build();
+    exports._rMain = function () {
+        return (function () {
+            return {
+                build: build
+            };
+        })();
+    };
 
 })(typeof window === 'undefined' ? module.exports : window);

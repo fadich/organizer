@@ -1,62 +1,101 @@
 ;(function listItemService(exports) {
     "use strict";
 
-    var items = [];
 
-    function Item() {
-        this.id = 0;
-        this.title = '';
-        this.content = '';
-        this.status = 4;
-        this.userId = 0;
-        this.createdAt = this.getTime();
-        this.updatedAt = this.getTime();
+    var $doc = $(document);
+    $doc.on('rebuild', function () {
+        var items = [];
+        var counted = [];
+        var ready = false;
 
-        this.getTime = function () {
-            return Math.floor(Date.now() / 1000);
-        };
-    }
+        function Item() {
+            this.id = 0;
+            this.title = '';
+            this.content = '';
+            this.status = 4;
+            this.userId = 0;
+            this.createdAt = getTime();
+            this.updatedAt = getTime();
 
-    var getItemsInterval = setInterval(function () {
-        initService();
-
-        clearInterval(getItemsInterval);
-    }, 100);
-
-    function initService() {
-        $.get(_rConfigService().getAPIUrl(), function (data) {
-
-            for (var i = items.length - 1; i >= 0; i--) {
-                var dataItem = data.items[i];
-                var item = new Item();
-
-                for (var prop in dataItem) {
-                    item[prop] = dataItem[prop];
-                }
-                items.push(item);
+            function getTime() {
+                return Math.floor(Date.now() / 1000);
             }
+        }
 
-            _rConfigService().setToken(data.token);
-        });
+        function count() {
+            for (var i = items.length - 1; i >= 0; i--) {
+                var status = items[i].status;
 
-        exports._rItemListService = function () {
-            return (function () {
-                return {
-                    getItems: function () {
+                counted[status] = counted[status] !== undefined ? counted[status] + 1 : 0;
+            }
+        }
 
-                    },
-                    newItem: function () {
+        var getItemsInterval = setInterval(function () {
+            initService();
 
-                    },
-                    editItem: function () {
+            clearInterval(getItemsInterval);
+        }, 100);
 
-                    },
-                    deleteItem: function () {
+        function initService() {
+            $.get(_rConfigService().getAPIUrl(), function (data) {
 
+                for (var i = data.items.length - 1; i >= 0; i--) {
+                    var dataItem = data.items[i];
+                    var item = new Item();
+
+                    for (var prop in dataItem) {
+                        item[prop] = dataItem[prop];
                     }
+                    items.push(item);
                 }
-            })();
-        };
-    }
+
+                count();
+                _rConfigService().setToken(data.token);
+
+                ready = true;
+            });
+
+            var expInterval = setInterval(function () {
+                if (!ready) {
+                    return;
+                }
+
+                exports._rItemListService = function () {
+                    return (function () {
+                        return {
+                            getItems: function () {
+                                return items;
+                            },
+                            newItem: function () {
+
+                            },
+                            editItem: function () {
+
+                            },
+                            deleteItem: function () {
+
+                            },
+                            count: (function () {
+                                return function (status /**, status */) {
+                                    var count = 0;
+
+                                    for (var i = arguments.length - 1; i >= 0; i--) {
+                                        if (counted[arguments[i]] !== undefined) {
+                                            count += counted[arguments[i]];
+                                        }
+                                    }
+
+                                    return count;
+                                }
+                            })()
+                        }
+                    })();
+                };
+
+                ready = false;
+                clearInterval(expInterval);
+            }, 100);
+        }
+    });
 
 })(typeof window === 'undefined' ? module.export : window);

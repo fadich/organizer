@@ -5,7 +5,6 @@
     var $doc = $(document);
 
     var build = function () {
-        console.log('Building app...');
         if (typeof _rPreloader !== 'undefined') {
             _rPreloader().show();
         }
@@ -19,7 +18,14 @@
         }, 100);
     };
 
+    var rebuild = function () {
+        $doc.trigger('rebuild');
+    };
+
     var modulesReady = function () {
+        if (typeof _rBaseComponent === 'undefined') {
+            return false;
+        }
         if (typeof _rHeader === 'undefined') {
             return false;
         }
@@ -43,13 +49,19 @@
     };
 
     $doc.ready(function () {
+        rebuild();
+    });
+
+    $doc.on('rebuild', function () {
         build();
     });
 
     exports._rApp = function () {
-        return {
-            build: build
-        }
+        return (function () {
+            return {
+                build: rebuild
+            };
+        })();
     };
 
 })(typeof window === 'undefined' ? module.export : window);

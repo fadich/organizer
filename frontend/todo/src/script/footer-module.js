@@ -18,9 +18,15 @@
     });
 
     function build() {
-        return function () {}
+
     }
 
-    exports._rFooter = build();
+    exports._rFooter = function () {
+        return (function () {
+            return {
+                build: build
+            };
+        })();
+    };
 
 })(typeof window === 'undefined' ? module.exports : window);

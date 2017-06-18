@@ -67,12 +67,14 @@ html, body {
     clear: both;
     float: left;
     padding-top: 5px;
+    cursor: text;
 }
 
 .r-item-content>.r-item-body-text {
     font-size: 90%;
     overflow: hidden;
     display: -webkit-box;
+    cursor: text;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
@@ -174,4 +176,9 @@ html, body {
 
 .r-cursor-pointer {
     cursor: pointer;
+    user-select: none;
+}
+
+.r-no-select {
+    user-select: none;
 }
