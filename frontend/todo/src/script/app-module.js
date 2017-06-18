@@ -32,6 +32,12 @@
         if (typeof _rPreloader === 'undefined') {
             return false;
         }
+        if (typeof _rItemListService === 'undefined') {
+            return false;
+        }
+        if (typeof _rConfigService === 'undefined') {
+            return false;
+        }
 
         return true;
     };
