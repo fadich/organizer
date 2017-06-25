@@ -8,6 +8,26 @@
         var items = [];
         var counted = [];
         var ready = false;
+        var options = [];
+
+        (function optionsTemplate() {
+            var urls = {
+                4: 'template/item-options-active',
+                3: 'template/item-options-postponed',
+                2: 'template/item-options-done'
+            };
+
+            for (status in urls) {
+                $.ajax({
+                    type: 'GET',
+                    url: urls[status],
+                    async: false,
+                    success : function(response) {
+                        options[status] = response;
+                    }
+                });
+            }
+        })();
 
         function Item() {
             this.id = 0;
@@ -35,6 +55,25 @@
                 }
 
                 return '';
+            };
+
+            this.getTextClass = function () {
+                switch (this.status) {
+                    case 4:
+                        return '';
+                    case 3:
+                        return 'r-text-italic';
+                    case 2:
+                        return 'r-text-strike';
+                    case 1:
+                        return '';
+                }
+
+                return '';
+            };
+
+            this.getOptions = function () {
+                return options[this.status];
             };
         }
 

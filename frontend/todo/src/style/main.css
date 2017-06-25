@@ -182,3 +182,11 @@ html, body {
 .r-no-select {
     user-select: none;
 }
+
+.r-text-strike {
+    text-decoration: line-through;
+}
+
+.r-text-italic {
+    font-style: italic;
+}

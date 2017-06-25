@@ -11,7 +11,8 @@
         },
         bindValues: function (template, values) {
             for (var value in values) {
-                template = template.replace('::' + value, values[value]);
+                // Replace all.
+                template = template.split('::' + value).join(values[value]);
             }
 
             return template;
