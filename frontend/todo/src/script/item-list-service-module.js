@@ -3,6 +3,7 @@
 
 
     var $doc = $(document);
+
     $doc.on('rebuild', function () {
         var items = [];
         var counted = [];
@@ -20,13 +21,28 @@
             function getTime() {
                 return Math.floor(Date.now() / 1000);
             }
+
+            this.getStatusClass = function () {
+                switch (this.status) {
+                    case 4:
+                        return 'r-item-active';
+                    case 3:
+                        return 'r-item-postponed';
+                    case 2:
+                        return 'r-item-done';
+                    case 1:
+                        return 'r-item-deleted';
+                }
+
+                return '';
+            };
         }
 
         function count() {
             for (var i = items.length - 1; i >= 0; i--) {
                 var status = items[i].status;
 
-                counted[status] = counted[status] !== undefined ? counted[status] + 1 : 0;
+                counted[status] = counted[status] !== undefined ? counted[status] + 1 : 1;
             }
         }
 

@@ -4,11 +4,17 @@
 
     var baseComponent = {
         render: function (selector, template, bindValues) {
-            for (var value in bindValues) {
-                template = template.replace('::' + value, bindValues[value]);
+            if (bindValues) {
+                template = this.bindValues(template, bindValues);
+            }
+            selector.html(template);
+        },
+        bindValues: function (template, values) {
+            for (var value in values) {
+                template = template.replace('::' + value, values[value]);
             }
 
-            selector.html(template);
+            return template;
         }
     };
 

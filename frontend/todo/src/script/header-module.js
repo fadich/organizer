@@ -27,7 +27,6 @@
             active: _rItemListService().count(4),
             postponed: _rItemListService().count(3),
             done: _rItemListService().count(2),
-            disabledAll: isDisabled(2, 3, 4),
             disabledActive: isDisabled(4),
             disabledPostponed: isDisabled(3),
             disabledDone: isDisabled(2)
