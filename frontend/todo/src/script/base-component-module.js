@@ -10,6 +10,8 @@
             selector.html(template);
         },
         bindValues: function (template, values) {
+            values = values || {};
+
             for (var value in values) {
                 // Replace all.
                 template = template.split('::' + value).join(values[value]);

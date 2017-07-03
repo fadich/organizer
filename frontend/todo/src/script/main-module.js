@@ -22,6 +22,7 @@
         var $list = $('#todo-list-group');
         var items = _rItemListService().getItems();
         var template = '';
+        var itemTemplate = '';
 
         // Request item list form.
         $.ajax({
@@ -29,27 +30,31 @@
             url: 'template/item-list-form',
             async: false,
             success : function(response) {
-                template += _rBaseComponent().bindValues(response, {});
+                template += _rBaseComponent().bindValues(response);
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: 'template/item-list',
+            async: false,
+            success: function (response) {
+                itemTemplate = response;
             }
         });
 
         for (var i = items.length - 1; i >= 0; i--) {
             var item = items[i];
-            $.ajax({
-                type: 'GET',
-                url: 'template/item-list',
-                async: false,
-                success : function(response) {
-                    template += _rBaseComponent().bindValues(response, {
-                        id: item.id,
-                        title: item.title,
-                        content: item.content,
-                        statusClass: item.getStatusClass(),
-                        textClass: item.getTextClass(),
-                        options: item.getOptions()
-                    });
-                }
-            });
+            if (item.status > 1) {
+                template += _rBaseComponent().bindValues(itemTemplate, {
+                    id: item.id,
+                    title: item.title,
+                    content: item.content,
+                    statusClass: item.getStatusClass(),
+                    textClass: item.getTextClass(),
+                    options: item.getOptions()
+                });
+            }
         }
 
         _rBaseComponent().render($list, template);
