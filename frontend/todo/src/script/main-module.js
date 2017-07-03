@@ -16,6 +16,8 @@
     $doc.on('buildMain', function (ev) {
         $selector.html(template);
         $doc.trigger('buildList');
+
+        formHandling();
     });
 
     $doc.on('buildList', function (ev) {
@@ -63,6 +65,33 @@
 
     function build() {
 
+    }
+
+    function formHandling() {
+        var $form = $('#todo-item-form');
+        var $submit = $('#new-item-submit');
+        var $formGroup = $form.find('.form-group');
+        var $formHide = $form.find('#todo-item-form-hide');
+
+        $form.submit(function (ev) {
+
+            ev.preventDefault();
+        });
+
+        $submit.on('click', function (ev) {
+            var hidden = $formGroup.attr('hidden') === 'hidden';
+
+            if (!hidden) {
+
+                return;
+            }
+
+            $formGroup.slideDown();
+        });
+
+        $formHide.click(function () {
+            $formGroup.slideUp();
+        });
     }
 
     exports._rMain = function () {
