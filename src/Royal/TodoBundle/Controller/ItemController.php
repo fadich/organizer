@@ -45,7 +45,9 @@ class ItemController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         /** @var \Royal\TodoBundle\Entity\TodoItem[] $items */
-        $items = $em->getRepository('RoyalTodoBundle:TodoItem')->findAll();
+        $items = $em->getRepository('RoyalTodoBundle:TodoItem')->findBy([], [
+            'id' => 'DESC',
+        ]);
 
         $array_items = [];
         foreach ($items as $item) {
@@ -74,7 +76,6 @@ class ItemController extends Controller
     public function newAction(Request $request)
     {
         // royal_todobundle_item[field_name]
-        $expr = $_REQUEST;
         $item = new TodoItem();
         $item
             ->setUserId(0)
