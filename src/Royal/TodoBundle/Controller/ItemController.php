@@ -74,6 +74,7 @@ class ItemController extends Controller
     public function newAction(Request $request)
     {
         // royal_todobundle_item[field_name]
+        $expr = $_REQUEST;
         $item = new TodoItem();
         $item
             ->setUserId(0)

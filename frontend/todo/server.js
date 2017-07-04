@@ -1,15 +1,20 @@
-var express = require('express');
+var app = require('express')();
+var http = require('http').Server(app);
 var bodyParser = require('body-parser');
 var path = require('path');
+var request = require('request-promise');
 
-var app = express();
+var io = require('socket.io')(http);
 
 app.use( bodyParser.urlencoded() );
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 
+http.listen("3000", function () {
+    console.log("Listening on *:3000");
+});
+
 app.get("/", function(req, res) {
-    res.sendFile(path.resolve(__dirname + "/templates/index.html"));
-    // res.send("Hello World!");
+    res.sendFile(path.resolve(__dirname + "/index.html"));
 });
 
 app.get("/src/:type/:file", function(req, res) {
@@ -36,7 +41,40 @@ app.get("/template/:name", function(req, res) {
     res.sendFile(path.resolve(__dirname + "/templates/" + name + ".html"));
 });
 
-app.listen("3000", function () {
-    console.log("Listening on *:3000");
+io.on('connection', function(socket) {
+    var username = "Username";
+
+    io.emit('hello', { msg: "Welcome, " + username + "!" });
+
+    socket.on('new-item', function(data) {
+        var item = newItem(data.item);
+
+        io.emit('new-item', { msg: "New item!", item: item });
+    });
 });
 
+function newItem(item) {
+    var result = false;
+    var form = {
+        "royal_todobundle_item[title]": item.title,
+        "royal_todobundle_item[content]": item.body,
+        "royal_todobundle_item[status]": 4
+    };
+
+    request.post(getUrl('new'), {
+        json: true,
+        form: form
+    }).then(function (body) {
+        result = body;
+    }).catch(function (error) {
+        console.log(error);
+
+        result = error;
+    });
+
+    return result;
+}
+
+function getUrl(route) {
+    return "http://org.loc/royal/todo/item/" + route;
+}

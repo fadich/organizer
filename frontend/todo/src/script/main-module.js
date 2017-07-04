@@ -5,6 +5,7 @@
     var $selector = $('main');
     var $doc = $(document);
     var template = '';
+    var socket = io();
 
     $doc.on('buildApp', function (ev) {
         $.get('template/main', function (response) {
@@ -69,30 +70,84 @@
 
     function formHandling() {
         var $form = $('#todo-item-form');
-        var $submit = $('#new-item-submit');
+        var $submit = $('#item-submit');
         var $formGroup = $form.find('.form-group');
         var $formHide = $form.find('#todo-item-form-hide');
+        var $fieldId = $form.find('#item-id');
+        var $fieldTitle = $form.find('#item-title');
+        var $fieldBody = $form.find('#item-body');
 
         $form.submit(function (ev) {
+            var hidden = $formGroup.css('display') === 'none';
 
             ev.preventDefault();
-        });
 
-        $submit.on('click', function (ev) {
-            var hidden = $formGroup.attr('hidden') === 'hidden';
-
-            if (!hidden) {
+            if (hidden) {
+                $formGroup.slideDown();
+                $form.trigger('keyup');
 
                 return;
             }
 
-            $formGroup.slideDown();
+            var item = getForm();
+            _rPreloader().show();
+
+            saveItem(item);
         });
 
         $formHide.click(function () {
             $formGroup.slideUp();
+            $submit.removeAttr('disabled')
         });
+
+        $form.on('keyup', function (ev) {
+            var form = getForm();
+
+            if (form.title.length >= 3 && form.body.length >= 3) {
+                $submit.removeAttr('disabled')
+            } else {
+                $submit.attr('disabled', 'disabled');
+            }
+        });
+
+        function getForm() {
+            var id = $fieldId.val();
+            var title = $fieldTitle.val();
+            var body = $fieldBody.val();
+
+            return {
+                id: id,
+                title: title,
+                body: body
+            };
+        }
+
+        function saveItem(item) {
+            if (item.id) {
+                updateItem(item);
+
+                return;
+            }
+
+            createItem(item);
+        }
+
+        function updateItem() {
+            // TODO: Update item.
+            return false;
+        }
+
+        function createItem(item) {
+            socket.emit('new-item', {
+                item: item
+            });
+        }
     }
+
+    socket.on('new-item', function (item) {
+        _rPreloader().hide();
+        _rApp().build()
+    });
 
     exports._rMain = function () {
         return (function () {
