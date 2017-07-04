@@ -145,8 +145,11 @@
     }
 
     socket.on('new-item', function (item) {
+        // (function () {
+            _rApp().build();
+        // })();
+
         _rPreloader().hide();
-        _rApp().build()
     });
 
     exports._rMain = function () {
