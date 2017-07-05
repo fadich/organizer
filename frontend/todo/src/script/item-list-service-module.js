@@ -77,6 +77,37 @@
             };
         }
 
+        Item.addItem = function (data) {
+            var item = new Item();
+
+            for (var prop in data) {
+                item[prop] = data[prop];
+            }
+            items.push(item);
+
+            return item;
+        };
+
+        Item.findItem = function (id) {
+            for (var i = items.length - 1; i >= 0; i--) {
+                var item = items[i];
+
+                if (+item.id === +id) {
+                    return item;
+                }
+            }
+
+            return false;
+        };
+
+        Item.deleteItem = function (id) {
+            var item = Item.findItem(id);
+
+            item.status = 1;
+
+            return item;
+        };
+
         function count() {
             for (var i = items.length - 1; i >= 0; i--) {
                 var status = items[i].status;
@@ -96,12 +127,7 @@
 
                 for (var i = data.items.length - 1; i >= 0; i--) {
                     var dataItem = data.items[i];
-                    var item = new Item();
-
-                    for (var prop in dataItem) {
-                        item[prop] = dataItem[prop];
-                    }
-                    items.push(item);
+                    Item.addItem(dataItem);
                 }
 
                 count();
@@ -121,23 +147,25 @@
                             getItems: function () {
                                 return items;
                             },
+                            getItem: function (itemId) {
+                                return Item.findItem(itemId);
+                            },
                             newItem: function (item) {
-                                items.unshift(item);
+                                Item.addItem(item);
 
                                 _rApp().build();
-
-                                // There is some problem with view items on rebuilding...
-                                // Crutch for "hard" rebuild...
-                                _rPreloader().show();
-                                setTimeout(function () {
-                                    _rApp().build();
-                                    _rPreloader().hide();
-                                }, 500);
                             },
                             editItem: function () {
 
                             },
-                            deleteItem: function () {
+                            deleteItem: function (itemId) {
+                                Item.deleteItem(itemId);
+
+                                _rApp().build();
+
+                                // setTimeout(function () {
+                                //     _rApp().build();
+                                // }, 1000);
 
                             },
                             count: (function () {

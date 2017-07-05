@@ -19,11 +19,13 @@
         $doc.trigger('buildList');
 
         formHandling();
+        listHandling();
     });
 
     $doc.on('buildList', function (ev) {
         var $list = $('#todo-list-group');
-        var items = _rItemListService().getItems();var listTemplate = '';
+        var items = _rItemListService().getItems();
+        var listTemplate = '';
         var itemTemplate = '';
 
         // Request item list form.
@@ -74,7 +76,7 @@
         var $formHide = $form.find('#todo-item-form-hide');
         var $fieldId = $form.find('#item-id');
         var $fieldTitle = $form.find('#item-title');
-        var $fieldBody = $form.find('#item-body');
+        var $fieldContent = $form.find('#item-body');
 
         $form.submit(function (ev) {
             var hidden = $formGroup.css('display') === 'none';
@@ -102,7 +104,7 @@
         $form.on('keyup', function (ev) {
             var form = getForm();
 
-            if (form.title.length >= 3 && form.body.length >= 3) {
+            if (form.title.length >= 3 && form.content.length >= 3) {
                 $submit.removeAttr('disabled')
             } else {
                 $submit.attr('disabled', 'disabled');
@@ -112,12 +114,12 @@
         function getForm() {
             var id = $fieldId.val();
             var title = $fieldTitle.val();
-            var body = $fieldBody.val();
+            var content = $fieldContent.val();
 
             return {
                 id: id,
                 title: title,
-                body: body
+                content: content
             };
         }
 
@@ -143,11 +145,37 @@
         }
     }
 
-    socket.on('new-item', function (item) {
+    function listHandling() {
+        var $deleteButton = $('.r-btn-delete-item');
+
+        $deleteButton.click(function (ev) {
+            var $this = $(this);
+            var $item = $this.closest('.r-item');
+            var itemId = $item.data('id');
+            var item = _rItemListService().getItem(itemId);
+
+            if (!item) {
+                console.error("Item #" + itemId + " not found.");
+                return;
+            }
+
+            socket.emit('delete-item', {
+                item: item
+            });
+        });
+    }
+
+    socket.on('new-item', function (res) {
         // (function () {
         // })();
 
-        _rItemListService().newItem(item);
+        _rItemListService().newItem(res.item);
+
+        _rPreloader().hide();
+    });
+
+    socket.on('delete-item', function (res) {
+        _rItemListService().deleteItem(res.item.id);
 
         _rPreloader().hide();
     });

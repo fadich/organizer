@@ -51,17 +51,47 @@ io.on('connection', function(socket) {
             io.emit('new-item', { msg: "New item!", item: res.item });
         });
     });
+
+    socket.on('delete-item', function(data) {
+        deleteItem(data.item, function (res) {
+            io.emit('delete-item', { msg: "Item deleted.", item: res.item });
+        });
+    });
 });
 
 function newItem(item, onSuccess) {
     var result = false;
     var form = {
         "royal_todobundle_item[title]": item.title,
-        "royal_todobundle_item[content]": item.body,
+        "royal_todobundle_item[content]": item.content,
         "royal_todobundle_item[status]": 4
     };
 
     request.post(getUrl('new'), {
+        json: true,
+        form: form
+    }).then(function (body) {
+        result = body;
+        onSuccess(body);
+    }).catch(function (error) {
+        console.log(error);
+
+        result = error;
+    });
+
+    return result;
+}
+
+function deleteItem(item, onSuccess) {
+    var result = false;
+    var form = {
+        "royal_todobundle_item[content]": item.content,
+        "royal_todobundle_item[title]": item.title,
+        "royal_todobundle_item[status]": 1
+    };
+
+    console.log(item);
+    request.post(getUrl(item.id + '/edit'), {
         json: true,
         form: form
     }).then(function (body) {
