@@ -160,9 +160,11 @@
                 return;
             }
 
-            socket.emit('delete-item', {
-                item: item
-            });
+            if (confirm("Delete item \"" + item.title + "\"?")) {
+                socket.emit('delete-item', {
+                    item: item
+                });
+            }
         });
     }
 
