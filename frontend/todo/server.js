@@ -47,13 +47,13 @@ io.on('connection', function(socket) {
     io.emit('hello', { msg: "Welcome, " + username + "!" });
 
     socket.on('new-item', function(data) {
-        var item = newItem(data.item);
-
-        io.emit('new-item', { msg: "New item!", item: item });
+        newItem(data.item, function (res) {
+            io.emit('new-item', { msg: "New item!", item: res.item });
+        });
     });
 });
 
-function newItem(item) {
+function newItem(item, onSuccess) {
     var result = false;
     var form = {
         "royal_todobundle_item[title]": item.title,
@@ -66,6 +66,7 @@ function newItem(item) {
         form: form
     }).then(function (body) {
         result = body;
+        onSuccess(body);
     }).catch(function (error) {
         console.log(error);
 

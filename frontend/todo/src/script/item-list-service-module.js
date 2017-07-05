@@ -121,8 +121,18 @@
                             getItems: function () {
                                 return items;
                             },
-                            newItem: function () {
+                            newItem: function (item) {
+                                items.unshift(item);
 
+                                _rApp().build();
+
+                                // There is some problem with view items on rebuilding...
+                                // Crutch for "hard" rebuild...
+                                _rPreloader().show();
+                                setTimeout(function () {
+                                    _rApp().build();
+                                    _rPreloader().hide();
+                                }, 500);
                             },
                             editItem: function () {
 

@@ -23,8 +23,7 @@
 
     $doc.on('buildList', function (ev) {
         var $list = $('#todo-list-group');
-        var items = _rItemListService().getItems();
-        var template = '';
+        var items = _rItemListService().getItems();var listTemplate = '';
         var itemTemplate = '';
 
         // Request item list form.
@@ -33,7 +32,7 @@
             url: 'template/item-list-form',
             async: false,
             success : function(response) {
-                template += _rBaseComponent().bindValues(response);
+                listTemplate += _rBaseComponent().bindValues(response);
             }
         });
 
@@ -49,7 +48,7 @@
         for (var i = items.length - 1; i >= 0; i--) {
             var item = items[i];
             if (item.status > 1) {
-                template += _rBaseComponent().bindValues(itemTemplate, {
+                listTemplate += _rBaseComponent().bindValues(itemTemplate, {
                     id: item.id,
                     title: item.title,
                     content: item.content,
@@ -60,7 +59,7 @@
             }
         }
 
-        _rBaseComponent().render($list, template);
+        _rBaseComponent().render($list, listTemplate);
         $doc.trigger('buildListForm');
     });
 
@@ -146,8 +145,9 @@
 
     socket.on('new-item', function (item) {
         // (function () {
-            _rApp().build();
         // })();
+
+        _rItemListService().newItem(item);
 
         _rPreloader().hide();
     });
