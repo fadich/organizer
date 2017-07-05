@@ -56,7 +56,8 @@
                     content: item.content,
                     statusClass: item.getStatusClass(),
                     textClass: item.getTextClass(),
-                    options: item.getOptions()
+                    options: item.getOptions(),
+                    checked: item.status === 2 ? "checked" : ""
                 });
             }
         }
