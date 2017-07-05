@@ -11,12 +11,12 @@ item_show:
 item_new:
     path:     /new
     defaults: { _controller: "RoyalTodoBundle:Item:new" }
-    methods:  [GET, POST]
+    methods:  [POST]
 
 item_edit:
     path:     /{id}/edit
     defaults: { _controller: "RoyalTodoBundle:Item:edit" }
-    methods:  [GET, POST]
+    methods:  [POST]
 
 item_delete:
     path:     /{id}/delete

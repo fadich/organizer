@@ -3,6 +3,7 @@
 namespace Royal\TodoBundle\Controller;
 
 use Royal\TodoBundle\Entity\TodoItem;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -40,17 +41,27 @@ class ItemController extends Controller
      */
     public function indexAction()
     {
+        /** @var \Doctrine\Common\Persistence\ObjectManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $items = $em->getRepository('RoyalTodoBundle:TodoItem')->findAll();
-        foreach ($items as &$item) {
-            $item = $this->jsonEncode($item);
+        /** @var \Royal\TodoBundle\Entity\TodoItem[] $items */
+        $items = $em->getRepository('RoyalTodoBundle:TodoItem')->findBy([], [
+            'id' => 'DESC',
+        ]);
+
+        $array_items = [];
+        foreach ($items as $item) {
+            if ($item->getStatus() == TodoItem::STATUS_DELETED) {
+                continue;
+            }
+            $array_items[] = $this->jsonEncode($item);
         }
 
         $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', new TodoItem());
         $csrf = $this->getCsrfToken($form->getName());
+
         return $this->json([
-            'items' => $items,
+            'items' => $array_items,
             'token' => $csrf,
         ]);
     }
@@ -71,7 +82,9 @@ class ItemController extends Controller
             ->setCreatedAt(time())
             ->setUpdatedAt(time());
 
-        $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item);
+        $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item, [
+            'csrf_protection' => false,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -86,7 +99,7 @@ class ItemController extends Controller
 
         return $this->json([
             'errors' => $this->jsonEncode($form->getErrors()),
-        ]);
+        ], 400);
     }
 
     /**
@@ -98,6 +111,12 @@ class ItemController extends Controller
      */
     public function showAction(TodoItem $item)
     {
+        if ($item->getStatus() === TodoItem::STATUS_DELETED) {
+            return $this->json([
+                'errors' => $this->jsonEncode(["Item not found or deleted"]),
+            ], 404);
+        }
+
         return $this->json([
             'item' => $this->jsonEncode($item),
         ]);
@@ -113,7 +132,15 @@ class ItemController extends Controller
      */
     public function editAction(Request $request, TodoItem $item)
     {
-        $editForm = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item);
+        if ($item->getStatus() === TodoItem::STATUS_DELETED) {
+            return $this->json([
+                'errors' => $this->jsonEncode(["Item not found or deleted"]),
+            ], 404);
+        }
+
+        $editForm = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item, [
+            'csrf_protection' => false,
+        ]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -127,7 +154,7 @@ class ItemController extends Controller
         return $this->json([
             'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($editForm->getErrors()),
-        ]);
+        ], 400);
     }
 
     /**
@@ -155,11 +182,12 @@ class ItemController extends Controller
         }
 
         $csrf = $this->getCsrfToken($form->getName());
+
         return $this->json([
             'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($form->getErrors()),
-            'token' => $csrf,
-        ]);
+//            'token' => $csrf,
+        ], 400);
     }
 
     /**
@@ -187,6 +215,7 @@ class ItemController extends Controller
     {
         /** @var \Symfony\Component\Security\Csrf\CsrfTokenManager $csrf */
         $csrf = $this->get("security.csrf.token_manager");
+
         return $csrf;
     }
 
@@ -208,5 +237,17 @@ class ItemController extends Controller
     protected function jsonEncode($data)
     {
         return json_decode($this->serializer->serialize($data, 'json'), true);
+    }
+
+    /**
+     * Allow origin AJAX.
+     *
+     * {@inheritdoc}
+     */
+    public function json($data, $status = 200, $headers = [], $context = []) {
+        $response = parent::json($data, $status, $headers, $context);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
     }
 }

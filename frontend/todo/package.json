@@ -1,0 +1,24 @@
+{
+  "name": "organizer.todo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "concurrent \"npm run tsc:w\" \"nodemon server.js\" ",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w"
+  },
+  "author": "Fadi Ahmad",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "concurrent": "^0.3.2",
+    "express": "^4.15.3",
+    "jquery": "^3.2.1",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "socket.io": "^2.0.3",
+    "tsc": "^1.20150623.0"
+  }
+}
