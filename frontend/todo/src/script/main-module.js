@@ -135,7 +135,16 @@
             };
         }
 
+        function resetForm() {
+            $fieldId.val('');
+            $fieldTitle.val('');
+            $fieldContent.val('');
+        }
+
         function saveItem(item) {
+            resetForm();
+            $formHide.click();
+
             if (item.id) {
                 updateItem(item);
 
@@ -187,6 +196,7 @@
 
         $doc.trigger('buildListItems');
         $doc.trigger('buildHeader');
+        listHandling();
 
         _rPreloader().hide();
     });
@@ -196,6 +206,7 @@
 
         $doc.trigger('buildListItems');
         $doc.trigger('buildHeader');
+        listHandling();
 
         _rPreloader().hide();
     });
