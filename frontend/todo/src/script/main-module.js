@@ -23,10 +23,12 @@
     });
 
     $doc.on('buildList', function (ev) {
+        $doc.trigger('buildListForm');
+    });
+
+    $doc.on('buildListForm', function (ev) {
         var $list = $('#todo-list-group');
-        var items = _rItemListService().getItems();
         var listTemplate = '';
-        var itemTemplate = '';
 
         // Request item list form.
         $.ajax({
@@ -37,6 +39,16 @@
                 listTemplate += _rBaseComponent().bindValues(response);
             }
         });
+
+        _rBaseComponent().render($list, listTemplate);
+        $doc.trigger('buildListItems');
+    });
+
+    $doc.on('buildListItems', function (ev) {
+        var $listItems = $('#list-items');
+        var listTemplate = "";
+        var itemTemplate = '';
+        var items = _rItemListService().getItems();
 
         $.ajax({
             type: 'GET',
@@ -62,8 +74,7 @@
             }
         }
 
-        _rBaseComponent().render($list, listTemplate);
-        $doc.trigger('buildListForm');
+        _rBaseComponent().render($listItems, listTemplate);
     });
 
     function build() {
@@ -174,11 +185,17 @@
 
         _rItemListService().newItem(res.item);
 
+        $doc.trigger('buildListItems');
+        $doc.trigger('buildHeader');
+
         _rPreloader().hide();
     });
 
     socket.on('delete-item', function (res) {
         _rItemListService().deleteItem(res.item.id);
+
+        $doc.trigger('buildListItems');
+        $doc.trigger('buildHeader');
 
         _rPreloader().hide();
     });

@@ -7,10 +7,16 @@
     var template = '';
 
     $doc.on('buildApp', function (ev) {
-        $.get('template/header', function (response) {
-            template = response;
-            $doc.trigger('buildHeader');
+        $.ajax({
+            type: 'GET',
+            url: 'template/header',
+            async: false,
+            success : function(response) {
+                template = response;
+            }
         });
+
+        $doc.trigger('buildHeader');
     });
 
     $doc.on('buildHeader', function (ev) {
