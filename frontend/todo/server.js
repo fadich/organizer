@@ -70,15 +70,19 @@ io.on('connection', function(socket) {
 
     socket.on('postpone-item', function(data) {
         editItem(data.item, 3, function (res) {
-            console.log(1);
             io.emit('postpone-item', { msg: "Item postponed.", item: res.item });
         });
     });
 
     socket.on('restore-item', function(data) {
         editItem(data.item, 4, function (res) {
-            console.log(2);
             io.emit('restore-item', { msg: "Item restored.", item: res.item });
+        });
+    });
+
+    socket.on('done-item', function(data) {
+        editItem(data.item, 2, function (res) {
+            io.emit('done-item', { msg: "Item done.", item: res.item });
         });
     });
 });

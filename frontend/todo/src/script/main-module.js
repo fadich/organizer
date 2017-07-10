@@ -224,6 +224,30 @@
             $this.removeClass('r-new-item-border');
         });
 
+        $('.r-item-checkbox').change(function (ev) {
+            var $this = $(this);
+            var checked = !!$this.attr('checked');
+            var item = getItemInfo($this);
+
+            if (!item) {
+                console.error("Item not found.");
+                return;
+            }
+
+            if (!checked) {
+                socket.emit('done-item', {
+                    item: item
+                });
+                return;
+            }
+
+            if (confirm('Restore "' + item.title + '"?')) {
+                socket.emit('restore-item', {
+                    item: item
+                });
+            }
+        });
+
         function getItemInfo(selector) {
             var $item = selector.closest('.r-item');
             var itemId = $item.data('id');
