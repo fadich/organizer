@@ -163,15 +163,15 @@
 
     function listHandling() {
         var $deleteButton = $('.r-btn-delete-item');
+        var $postponeButton = $('.r-btn-postpone-item');
+        var $restoreButton = $('.r-btn-restore-item');
 
         $deleteButton.click(function (ev) {
             var $this = $(this);
-            var $item = $this.closest('.r-item');
-            var itemId = $item.data('id');
-            var item = _rItemListService().getItem(itemId);
+            var item = getItemInfo($this);
 
             if (!item) {
-                console.error("Item #" + itemId + " not found.");
+                console.error("Item not found.");
                 return;
             }
 
@@ -180,6 +180,34 @@
                     item: item
                 });
             }
+        });
+
+        $postponeButton.click(function (ev) {
+            var $this = $(this);
+            var item = getItemInfo($this);
+
+            if (!item) {
+                console.error("Item not found.");
+                return;
+            }
+
+            socket.emit('postpone-item', {
+                item: item
+            });
+        });
+
+        $restoreButton.click(function (ev) {
+            var $this = $(this);
+            var item = getItemInfo($this);
+
+            if (!item) {
+                console.error("Item not found.");
+                return;
+            }
+
+            socket.emit('restore-item', {
+                item: item
+            });
         });
 
         $('.r-new-item-border').hover(function (ev) {
@@ -196,6 +224,14 @@
 
             $this.removeClass('r-new-item-border');
         });
+
+        function getItemInfo(selector) {
+            var $item = selector.closest('.r-item');
+            var itemId = $item.data('id');
+            var item = _rItemListService().getItem(itemId);
+
+            return item;
+        }
     }
 
     function newItemBorder(newItemId) {

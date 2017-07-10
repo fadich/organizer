@@ -53,8 +53,22 @@ io.on('connection', function(socket) {
     });
 
     socket.on('delete-item', function(data) {
-        deleteItem(data.item, function (res) {
+        editItem(data.item, 1, function (res) {
             io.emit('delete-item', { msg: "Item deleted.", item: res.item });
+        });
+    });
+
+    socket.on('postpone-item', function(data) {
+        editItem(data.item, 3, function (res) {
+            console.log(1);
+            io.emit('postpone-item', { msg: "Item postponed.", item: res.item });
+        });
+    });
+
+    socket.on('restore-item', function(data) {
+        editItem(data.item, 4, function (res) {
+            console.log(2);
+            io.emit('restore-item', { msg: "Item restored.", item: res.item });
         });
     });
 });
@@ -82,12 +96,14 @@ function newItem(item, onSuccess) {
     return result;
 }
 
-function deleteItem(item, onSuccess) {
+function editItem(item, status, onSuccess) {
+    status = status || item.status;
+
     var result = false;
     var form = {
         "royal_todobundle_item[content]": item.content,
         "royal_todobundle_item[title]": item.title,
-        "royal_todobundle_item[status]": 1
+        "royal_todobundle_item[status]": status
     };
 
     request.post(getUrl(item.id + '/edit'), {
