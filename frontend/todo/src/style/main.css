@@ -190,3 +190,8 @@ html, body {
 .r-text-italic {
     font-style: italic;
 }
+
+.r-new-item-border {
+    border: dotted rgba(64, 128, 255, 0.5);
+    border-radius: 0;
+}

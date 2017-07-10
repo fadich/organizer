@@ -9,6 +9,12 @@
             }
             selector.html(template);
         },
+        renderAppend: function (selector, template, bindValues) {
+            if (bindValues) {
+                template = this.bindValues(template, bindValues);
+            }
+            selector.append(template);
+        },
         bindValues: function (template, values) {
             values = values || {};
 

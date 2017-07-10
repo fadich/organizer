@@ -109,6 +109,8 @@
         };
 
         function count() {
+            counted = [];
+
             for (var i = items.length - 1; i >= 0; i--) {
                 var status = items[i].status;
 
@@ -151,21 +153,19 @@
                                 return Item.findItem(itemId);
                             },
                             newItem: function (item) {
-                                Item.addItem(item);
+                                var item = Item.addItem(item);
+                                count();
 
-                                _rApp().build();
+                                return item;
                             },
                             editItem: function () {
 
                             },
                             deleteItem: function (itemId) {
-                                Item.deleteItem(itemId);
+                                var item = Item.deleteItem(itemId);
+                                count();
 
-                                _rApp().build();
-
-                                // setTimeout(function () {
-                                //     _rApp().build();
-                                // }, 1000);
+                                return item;
 
                             },
                             count: (function () {
