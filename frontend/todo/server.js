@@ -58,31 +58,51 @@ io.on('connection', function(socket) {
 
     socket.on('new-item', function(data) {
         newItem(data.item, function (res) {
-            io.emit('new-item', { msg: "New item!", item: res.item });
+            io.emit('new-item', {
+                msg: "New item!",
+                item: res.item,
+                client: data.client
+            });
         });
     });
 
     socket.on('delete-item', function(data) {
         editItem(data.item, 1, function (res) {
-            io.emit('delete-item', { msg: "Item deleted.", item: res.item });
+            io.emit('delete-item', {
+                msg: "Item deleted.",
+                item: res.item,
+                client: data.client
+            });
         });
     });
 
     socket.on('postpone-item', function(data) {
         editItem(data.item, 3, function (res) {
-            io.emit('postpone-item', { msg: "Item postponed.", item: res.item });
+            io.emit('postpone-item', {
+                msg: "Item postponed.",
+                item: res.item,
+                client: data.client
+            });
         });
     });
 
     socket.on('restore-item', function(data) {
         editItem(data.item, 4, function (res) {
-            io.emit('restore-item', { msg: "Item restored.", item: res.item });
+            io.emit('restore-item', {
+                msg: "Item restored.",
+                item: res.item,
+                client: data.client
+            });
         });
     });
 
     socket.on('done-item', function(data) {
         editItem(data.item, 2, function (res) {
-            io.emit('done-item', { msg: "Item done.", item: res.item });
+            io.emit('done-item', {
+                msg: "Item done.",
+                item: res.item,
+                client: data.client
+            });
         });
     });
 });

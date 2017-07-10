@@ -6,6 +6,7 @@
     var $doc = $(document);
     var template = '';
     var socket = io();
+    var client = Date.now();
 
     $doc.on('buildApp', function (ev) {
         $.get('template/main', function (response) {
@@ -155,7 +156,8 @@
 
         function createItem(item) {
             socket.emit('new-item', {
-                item: item
+                item: item,
+                client: client
             });
         }
     }
@@ -176,7 +178,8 @@
 
             if (confirm("Delete item \"" + item.title + "\"?")) {
                 socket.emit('delete-item', {
-                    item: item
+                    item: item,
+                    client: client
                 });
             }
         });
@@ -191,7 +194,8 @@
             }
 
             socket.emit('postpone-item', {
-                item: item
+                item: item,
+                client: client
             });
         });
 
@@ -205,7 +209,8 @@
             }
 
             socket.emit('restore-item', {
-                item: item
+                item: item,
+                client: client
             });
         });
 
@@ -236,14 +241,16 @@
 
             if (!checked) {
                 socket.emit('done-item', {
-                    item: item
+                    item: item,
+                    client: client
                 });
                 return;
             }
 
             if (confirm('Restore "' + item.title + '"?')) {
                 socket.emit('restore-item', {
-                    item: item
+                    item: item,
+                    client: client
                 });
             }
         });
@@ -261,7 +268,6 @@
         var lsItems = JSON.parse(localStorage.getItem('r-new-item'));
         var items = Array.isArray(lsItems) ? lsItems : [];
 
-        console.log(items.indexOf(newItemId));
         if (items.indexOf(newItemId) === -1) {
             items.push(newItemId);
             localStorage.setItem('r-new-item', JSON.stringify(items));
@@ -276,12 +282,16 @@
         }
     }
 
-    function updatingItem(item) {
-        _rItemListService().editItem(item);
+    function updatingItem(res) {
+        _rItemListService().editItem(res.item);
 
         $doc.trigger('buildListItems');
 
-        newItemEffect(item.id);
+
+        if (res.client !== client) {
+            newItemEffect(res.item.id);
+        }
+
         listHandling();
 
         _rPreloader().hide();
@@ -292,7 +302,11 @@
 
         $doc.trigger('buildListItems');
         $doc.trigger('buildHeader');
-        newItemEffect(res.item.id);
+
+        if (res.client !== client) {
+            newItemEffect(res.item.id);
+        }
+
         listHandling();
 
         _rPreloader().hide();
@@ -309,15 +323,15 @@
     });
 
     socket.on('postpone-item', function (res) {
-        updatingItem(res.item);
+        updatingItem(res);
     });
 
     socket.on('restore-item', function (res) {
-        updatingItem(res.item);
+        updatingItem(res);
     });
 
     socket.on('done-item', function (res) {
-        updatingItem(res.item);
+        updatingItem(res);
     });
 
     exports._rMain = function () {
