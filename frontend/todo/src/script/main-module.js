@@ -18,6 +18,7 @@
         $selector.html(template);
         $doc.trigger('buildList');
 
+        newItemBorder();
         formHandling();
         listHandling();
     });
@@ -135,15 +136,9 @@
             };
         }
 
-        function resetForm() {
-            $fieldId.val('');
-            $fieldTitle.val('');
-            $fieldContent.val('');
-        }
-
         function saveItem(item) {
-            resetForm();
-            $formHide.click();
+            $doc.trigger('buildListForm');
+            formHandling();
 
             if (item.id) {
                 updateItem(item);
@@ -189,16 +184,35 @@
 
         $('.r-new-item-border').hover(function (ev) {
             var $this = $(this);
+            var itemId = +$this.data('id');
+            var lsItems = JSON.parse(localStorage.getItem('r-new-item'));
+            var index = lsItems.indexOf(itemId);
+
+            if (index > -1) {
+                lsItems.splice(index, 1);
+                localStorage.setItem('r-new-item', JSON.stringify(lsItems));
+            }
+
 
             $this.removeClass('r-new-item-border');
         });
     }
 
-    function newItemBorder(itemId) {
-        var $listItem = $('li[data-id="' + itemId + '"]');
-        console.log($listItem);
+    function newItemBorder(newItemId) {
+        var lsItems = JSON.parse(localStorage.getItem('r-new-item'));
+        var items = Array.isArray(lsItems) ? lsItems : [];
 
-        $listItem.addClass('r-new-item-border');
+        items.push(newItemId);
+        localStorage.setItem('r-new-item', JSON.stringify(items));
+
+        for (var num in items) {
+            var itemId = items[num];
+
+            if (itemId) {
+                $('li[data-id="' + itemId + '"]').addClass('r-new-item-border');
+            }
+        }
+
     }
 
     socket.on('new-item', function (res) {
