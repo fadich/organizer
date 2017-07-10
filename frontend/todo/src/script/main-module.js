@@ -110,14 +110,14 @@
 
         $formHide.click(function () {
             $formGroup.slideUp();
-            $submit.removeAttr('disabled')
+            $submit.removeAttr('disabled');
         });
 
         $form.on('keyup', function (ev) {
             var form = getForm();
 
             if (form.title.length >= 3 && form.content.length >= 3) {
-                $submit.removeAttr('disabled')
+                $submit.removeAttr('disabled');
             } else {
                 $submit.attr('disabled', 'disabled');
             }
@@ -186,6 +186,19 @@
                 });
             }
         });
+
+        $('.r-new-item-border').hover(function (ev) {
+            var $this = $(this);
+
+            $this.removeClass('r-new-item-border');
+        });
+    }
+
+    function newItemBorder(itemId) {
+        var $listItem = $('li[data-id="' + itemId + '"]');
+        console.log($listItem);
+
+        $listItem.addClass('r-new-item-border');
     }
 
     socket.on('new-item', function (res) {
@@ -196,6 +209,7 @@
 
         $doc.trigger('buildListItems');
         $doc.trigger('buildHeader');
+        newItemBorder(res.item.id);
         listHandling();
 
         _rPreloader().hide();
