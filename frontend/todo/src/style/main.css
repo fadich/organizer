@@ -192,6 +192,6 @@ html, body {
 }
 
 .r-new-item-border {
-    border: solid rgba(64, 128, 255, 0.5);
+    border: dotted rgba(64, 128, 255, 0.5);
     border-radius: 0;
 }
