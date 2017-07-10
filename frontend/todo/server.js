@@ -90,7 +90,6 @@ function deleteItem(item, onSuccess) {
         "royal_todobundle_item[status]": 1
     };
 
-    console.log(item);
     request.post(getUrl(item.id + '/edit'), {
         json: true,
         form: form
