@@ -192,6 +192,6 @@ html, body {
 }
 
 .r-new-item-border {
-    background: rgba(64, 128, 255, 0.2);
+    background: rgba(64, 128, 255, 0.1);
     transition: 1s;
 }

@@ -18,7 +18,7 @@
         $selector.html(template);
         $doc.trigger('buildList');
 
-        newItemBorder();
+        newItemEffect();
         formHandling();
         listHandling();
     });
@@ -257,12 +257,15 @@
         }
     }
 
-    function newItemBorder(newItemId) {
+    function newItemEffect(newItemId) {
         var lsItems = JSON.parse(localStorage.getItem('r-new-item'));
         var items = Array.isArray(lsItems) ? lsItems : [];
 
-        items.push(newItemId);
-        localStorage.setItem('r-new-item', JSON.stringify(items));
+        console.log(items.indexOf(newItemId));
+        if (items.indexOf(newItemId) === -1) {
+            items.push(newItemId);
+            localStorage.setItem('r-new-item', JSON.stringify(items));
+        }
 
         for (var num in items) {
             var itemId = items[num];
@@ -278,7 +281,7 @@
 
         $doc.trigger('buildListItems');
 
-        newItemBorder(item.id);
+        newItemEffect(item.id);
         listHandling();
 
         _rPreloader().hide();
@@ -289,7 +292,7 @@
 
         $doc.trigger('buildListItems');
         $doc.trigger('buildHeader');
-        newItemBorder(res.item.id);
+        newItemEffect(res.item.id);
         listHandling();
 
         _rPreloader().hide();
