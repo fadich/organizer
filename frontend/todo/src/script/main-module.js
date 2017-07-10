@@ -142,7 +142,6 @@
 
             if (item.id) {
                 updateItem(item);
-
                 return;
             }
 
@@ -248,13 +247,20 @@
                 $('li[data-id="' + itemId + '"]').addClass('r-new-item-border');
             }
         }
+    }
 
+    function updatingItem(item) {
+        _rItemListService().editItem(item);
+
+        $doc.trigger('buildListItems');
+
+        newItemBorder(item.id);
+        listHandling();
+
+        _rPreloader().hide();
     }
 
     socket.on('new-item', function (res) {
-        // (function () {
-        // })();
-
         _rItemListService().newItem(res.item);
 
         $doc.trigger('buildListItems');
@@ -273,6 +279,18 @@
         listHandling();
 
         _rPreloader().hide();
+    });
+
+    socket.on('postpone-item', function (res) {
+        updatingItem(res.item);
+    });
+
+    socket.on('restore-item', function (res) {
+        updatingItem(res.item);
+    });
+
+    socket.on('done-item', function (res) {
+        updatingItem(res.item);
     });
 
     exports._rMain = function () {
