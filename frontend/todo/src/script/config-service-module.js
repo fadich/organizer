@@ -9,7 +9,7 @@
 
             return {
                 getAPIUrl: function () {
-                    return "http://org.loc/royal/todo/item/";
+                    return "/get-items/";
                 },
                 getToken: function () {
                     return token;

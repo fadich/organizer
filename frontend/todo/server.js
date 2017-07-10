@@ -41,6 +41,16 @@ app.get("/template/:name", function(req, res) {
     res.sendFile(path.resolve(__dirname + "/templates/" + name + ".html"));
 });
 
+app.get("/get-items", function(req, res) {
+    request.get(getUrl(''), {
+        json: true
+    }).then(function (body) {
+        res.send(body);
+    }).catch(function (error) {
+        console.log(error);
+    });
+});
+
 io.on('connection', function(socket) {
     var username = "Username";
 
