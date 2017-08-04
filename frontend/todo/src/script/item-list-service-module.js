@@ -77,13 +77,18 @@
             };
         }
 
-        Item.addItem = function (data) {
+        Item.addItem = function (data, index) {
             var item = new Item();
 
             for (var prop in data) {
                 item[prop] = data[prop];
             }
-            items.push(item);
+
+            if (index) {
+                items[index] = item;
+            } else {
+                items.push(item);
+            }
 
             return item;
         };
@@ -158,8 +163,17 @@
 
                                 return item;
                             },
-                            editItem: function () {
+                            editItem: function (item) {
+                                var editing = Item.findItem(item.id);
 
+                                if (editing) {
+                                    var item = Item.addItem(item, items.indexOf(editing));
+                                    count();
+
+                                    return item;
+                                }
+
+                                return false;
                             },
                             deleteItem: function (itemId) {
                                 var item = Item.deleteItem(itemId);

@@ -6,6 +6,7 @@
     var $doc = $(document);
     var template = '';
     var socket = io();
+    var client = Date.now();
 
     $doc.on('buildApp', function (ev) {
         $.get('template/main', function (response) {
@@ -18,6 +19,7 @@
         $selector.html(template);
         $doc.trigger('buildList');
 
+        newItemEffect();
         formHandling();
         listHandling();
     });
@@ -61,7 +63,9 @@
 
         for (var i = items.length - 1; i >= 0; i--) {
             var item = items[i];
+
             if (item.status > 1) {
+
                 listTemplate += _rBaseComponent().bindValues(itemTemplate, {
                     id: item.id,
                     title: item.title,
@@ -69,7 +73,7 @@
                     statusClass: item.getStatusClass(),
                     textClass: item.getTextClass(),
                     options: item.getOptions(),
-                    checked: item.status === 2 ? "checked" : ""
+                    checked: +item.status === 2 ? "checked" : ""
                 });
             }
         }
@@ -135,19 +139,12 @@
             };
         }
 
-        function resetForm() {
-            $fieldId.val('');
-            $fieldTitle.val('');
-            $fieldContent.val('');
-        }
-
         function saveItem(item) {
-            resetForm();
-            $formHide.click();
+            $doc.trigger('buildListForm');
+            formHandling();
 
             if (item.id) {
                 updateItem(item);
-
                 return;
             }
 
@@ -161,55 +158,159 @@
 
         function createItem(item) {
             socket.emit('new-item', {
-                item: item
+                item: item,
+                client: client
             });
         }
     }
 
     function listHandling() {
         var $deleteButton = $('.r-btn-delete-item');
+        var $postponeButton = $('.r-btn-postpone-item');
+        var $restoreButton = $('.r-btn-restore-item');
 
         $deleteButton.click(function (ev) {
             var $this = $(this);
-            var $item = $this.closest('.r-item');
-            var itemId = $item.data('id');
-            var item = _rItemListService().getItem(itemId);
+            var item = getItemInfo($this);
 
             if (!item) {
-                console.error("Item #" + itemId + " not found.");
+                console.error("Item not found.");
                 return;
             }
 
             if (confirm("Delete item \"" + item.title + "\"?")) {
                 socket.emit('delete-item', {
-                    item: item
+                    item: item,
+                    client: client
                 });
             }
         });
 
+        $postponeButton.click(function (ev) {
+            var $this = $(this);
+            var item = getItemInfo($this);
+
+            if (!item) {
+                console.error("Item not found.");
+                return;
+            }
+
+            socket.emit('postpone-item', {
+                item: item,
+                client: client
+            });
+        });
+
+        $restoreButton.click(function (ev) {
+            var $this = $(this);
+            var item = getItemInfo($this);
+
+            if (!item) {
+                console.error("Item not found.");
+                return;
+            }
+
+            socket.emit('restore-item', {
+                item: item,
+                client: client
+            });
+        });
+
         $('.r-new-item-border').hover(function (ev) {
             var $this = $(this);
+            var itemId = +$this.data('id');
+            var lsItems = JSON.parse(localStorage.getItem('r-new-item'));
+            var index = lsItems.indexOf(itemId);
+
+            if (index > -1) {
+                lsItems.splice(index, 1);
+                localStorage.setItem('r-new-item', JSON.stringify(lsItems));
+            }
+
 
             $this.removeClass('r-new-item-border');
         });
+
+        $('.r-item-checkbox').change(function (ev) {
+            var $this = $(this);
+            var checked = $this.is(":checked");
+            var item = getItemInfo($this);
+
+            if (!item) {
+                console.error("Item not found.");
+                return;
+            }
+
+            if (checked) {
+                socket.emit('done-item', {
+                     item: item,
+                     client: client
+                });
+                return;
+            }
+
+            if (confirm('Restore "' + item.title + '"?')) {
+                socket.emit('restore-item', {
+                    item: item,
+                    client: client
+                });
+            } else {
+                this.checked = true;
+            }
+        });
+
+        function getItemInfo(selector) {
+            var $item = selector.closest('.r-item');
+            var itemId = $item.data('id');
+            var item = _rItemListService().getItem(itemId);
+
+            return item;
+        }
     }
 
-    function newItemBorder(itemId) {
-        var $listItem = $('li[data-id="' + itemId + '"]');
-        console.log($listItem);
+    function newItemEffect(newItemId) {
+        var lsItems = JSON.parse(localStorage.getItem('r-new-item'));
+        var items = Array.isArray(lsItems) ? lsItems : [];
 
-        $listItem.addClass('r-new-item-border');
+        if (items.indexOf(newItemId) === -1) {
+            items.push(newItemId);
+            localStorage.setItem('r-new-item', JSON.stringify(items));
+        }
+
+        for (var num in items) {
+            var itemId = items[num];
+
+            if (itemId) {
+                $('li[data-id="' + itemId + '"]').addClass('r-new-item-border');
+            }
+        }
+    }
+
+    function updatingItem(res) {
+        _rItemListService().editItem(res.item);
+
+        $doc.trigger('buildListItems');
+        $doc.trigger('buildHeader');
+
+        if (res.client !== client) {
+            newItemEffect(res.item.id);
+        }
+
+        listHandling();
+
+        _rPreloader().hide();
     }
 
     socket.on('new-item', function (res) {
-        // (function () {
-        // })();
-
         _rItemListService().newItem(res.item);
 
         $doc.trigger('buildListItems');
         $doc.trigger('buildHeader');
-        newItemBorder(res.item.id);
+
+        if (res.client !== client) {
+            newItemEffect(res.item.id);
+        }
+
         listHandling();
 
         _rPreloader().hide();
@@ -223,6 +324,18 @@
         listHandling();
 
         _rPreloader().hide();
+    });
+
+    socket.on('postpone-item', function (res) {
+        updatingItem(res);
+    });
+
+    socket.on('restore-item', function (res) {
+        updatingItem(res);
+    });
+
+    socket.on('done-item', function (res) {
+        updatingItem(res);
     });
 
     exports._rMain = function () {

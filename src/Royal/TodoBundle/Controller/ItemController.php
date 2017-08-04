@@ -2,8 +2,8 @@
 
 namespace Royal\TodoBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Royal\TodoBundle\Entity\TodoItem;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -17,12 +17,13 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  */
 class ItemController extends Controller
 {
+
     /**
      * @var \Symfony\Component\Serializer\Serializer
      */
     public $serializer;
 
-    function __construct()
+    public function __construct()
     {
         $encoders = [
             new XmlEncoder(),
@@ -57,12 +58,8 @@ class ItemController extends Controller
             $array_items[] = $this->jsonEncode($item);
         }
 
-        $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', new TodoItem());
-        $csrf = $this->getCsrfToken($form->getName());
-
         return $this->json([
             'items' => $array_items,
-            'token' => $csrf,
         ]);
     }
 
@@ -75,20 +72,14 @@ class ItemController extends Controller
      */
     public function newAction(Request $request)
     {
+        /** @var \Doctrine\Common\Persistence\ObjectManager $em */
+        $em = $this->getDoctrine()->getManager();
+
         // royal_todobundle_item[field_name]
         $item = new TodoItem();
-        $item
-            ->setUserId(0)
-            ->setCreatedAt(time())
-            ->setUpdatedAt(time());
+        $item->update($request->request->all());
 
-        $form = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item, [
-            'csrf_protection' => false,
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        if ('Is Valid') { // TODO: Validation
             $em->persist($item);
             $em->flush();
 
@@ -98,7 +89,7 @@ class ItemController extends Controller
         }
 
         return $this->json([
-            'errors' => $this->jsonEncode($form->getErrors()),
+            'errors' => $this->jsonEncode([]),
         ], 400);
     }
 
@@ -138,13 +129,14 @@ class ItemController extends Controller
             ], 404);
         }
 
-        $editForm = $this->createForm('Royal\TodoBundle\Form\TodoItemType', $item, [
-            'csrf_protection' => false,
-        ]);
-        $editForm->handleRequest($request);
+        /** @var \Doctrine\Common\Persistence\ObjectManager $em */
+        $em = $this->getDoctrine()->getManager();
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $item->update($request->request->all());
+
+        if ('Is Valid') { // TODO: Validation
+            $em->persist($item);
+            $em->flush();
 
             return $this->json([
                 'item' => $this->jsonEncode($item),
@@ -153,7 +145,7 @@ class ItemController extends Controller
 
         return $this->json([
             'item' => $this->jsonEncode($item),
-            'errors' => $this->jsonEncode($editForm->getErrors()),
+            'errors' => $this->jsonEncode([]),
         ], 400);
     }
 
@@ -180,8 +172,6 @@ class ItemController extends Controller
                 'item' => $this->jsonEncode($deleted),
             ]);
         }
-
-        $csrf = $this->getCsrfToken($form->getName());
 
         return $this->json([
             'item' => $this->jsonEncode($item),
@@ -250,4 +240,5 @@ class ItemController extends Controller
 
         return $response;
     }
+
 }
