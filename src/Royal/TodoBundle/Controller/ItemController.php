@@ -77,18 +77,18 @@ class ItemController extends Controller
         // royal_todobundle_item[field_name]
         $item = new TodoItem();
         $item->update($request->request->all());
+        $errors = $this->validate($item);
 
-        if ('Is Valid') { // TODO: Validation
+        if (!$errors->count()) {
             $em->persist($item);
             $em->flush();
-
             return $this->json([
                 'item' => $this->jsonEncode($item),
             ]);
         }
 
         return $this->json([
-            'errors' => $this->jsonEncode([]),
+            'errors' => $this->jsonEncode($errors->count()), // TODO: Error messages
         ], 400);
     }
 
@@ -130,10 +130,10 @@ class ItemController extends Controller
 
         /** @var \Doctrine\Common\Persistence\ObjectManager $em */
         $em = $this->getDoctrine()->getManager();
-
         $item->update($request->request->all());
+        $errors = $this->validate($item);
 
-        if ('Is Valid') { // TODO: Validation
+        if ($errors->count()) {
             $em->persist($item);
             $em->flush();
 
@@ -144,7 +144,7 @@ class ItemController extends Controller
 
         return $this->json([
             'item' => $this->jsonEncode($item),
-            'errors' => $this->jsonEncode([]),
+            'errors' => $this->jsonEncode($errors->count()), // TODO: Error messages
         ], 400);
     }
 
@@ -194,6 +194,22 @@ class ItemController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * Validate the entity.
+     *
+     * @param object $entity
+     *
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
+    protected function validate($entity)
+    {
+        /** @var \Symfony\Component\Validator\Validator\RecursiveValidator $validator */
+        $validator = $this->get('validator');
+
+        return $validator->validate($entity);
+
     }
 
 }
