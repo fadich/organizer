@@ -90,7 +90,7 @@ class TodoItem
      *
      * @param string $title
      *
-     * @return Item
+     * @return \Royal\TodoBundle\Entity\TodoItem
      */
     public function setTitle($title)
     {
@@ -114,7 +114,7 @@ class TodoItem
      *
      * @param string $content
      *
-     * @return Item
+     * @return \Royal\TodoBundle\Entity\TodoItem
      */
     public function setContent($content)
     {
@@ -138,7 +138,7 @@ class TodoItem
      *
      * @param integer $status
      *
-     * @return Item
+     * @return \Royal\TodoBundle\Entity\TodoItem
      */
     public function setStatus($status)
     {
@@ -162,7 +162,7 @@ class TodoItem
      *
      * @param integer $userId
      *
-     * @return Item
+     * @return \Royal\TodoBundle\Entity\TodoItem
      */
     public function setUserId($userId)
     {
@@ -186,7 +186,7 @@ class TodoItem
      *
      * @param integer $createdAt
      *
-     * @return Item
+     * @return \Royal\TodoBundle\Entity\TodoItem
      */
     public function setCreatedAt($createdAt)
     {
@@ -210,7 +210,7 @@ class TodoItem
      *
      * @param integer $updatedAt
      *
-     * @return Item
+     * @return \Royal\TodoBundle\Entity\TodoItem
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -228,5 +228,26 @@ class TodoItem
     {
         return $this->updatedAt;
     }
+
+    /**
+     * Setting properties from getting data.
+     *
+     * @param array $data
+     *    Array of properties (title, content, status).
+     *
+     * @return \Royal\TodoBundle\Entity\TodoItem
+     */
+    public function update(array $data)
+    {
+        $this->title = $data['title'] ?? $this->title;
+        $this->content = $data['content'] ?? $this->content;
+        $this->status = $data['status'] ?? $this->status;
+        $this->userId = 0;
+        $this->createdAt = $this->createdAt ?: time();
+        $this->updatedAt = time();
+
+        return $this;
+    }
+
 }
 

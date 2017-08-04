@@ -6,7 +6,7 @@ var request = require('request-promise');
 
 var io = require('socket.io')(http);
 
-app.use( bodyParser.urlencoded() );
+app.use( bodyParser.urlencoded({ extended: true }) );
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 
 http.listen("3000", function () {
@@ -41,6 +41,16 @@ app.get("/template/:name", function(req, res) {
     res.sendFile(path.resolve(__dirname + "/templates/" + name + ".html"));
 });
 
+app.get("/get-items", function(req, res) {
+    request.get(getUrl(''), {
+        json: true
+    }).then(function (body) {
+        res.send(body);
+    }).catch(function (error) {
+        console.log(error);
+    });
+});
+
 io.on('connection', function(socket) {
     var username = "Username";
 
@@ -48,13 +58,51 @@ io.on('connection', function(socket) {
 
     socket.on('new-item', function(data) {
         newItem(data.item, function (res) {
-            io.emit('new-item', { msg: "New item!", item: res.item });
+            io.emit('new-item', {
+                msg: "New item!",
+                item: res.item,
+                client: data.client
+            });
         });
     });
 
     socket.on('delete-item', function(data) {
-        deleteItem(data.item, function (res) {
-            io.emit('delete-item', { msg: "Item deleted.", item: res.item });
+        editItem(data.item, 1, function (res) {
+            io.emit('delete-item', {
+                msg: "Item deleted.",
+                item: res.item,
+                client: data.client
+            });
+        });
+    });
+
+    socket.on('postpone-item', function(data) {
+        editItem(data.item, 3, function (res) {
+            io.emit('postpone-item', {
+                msg: "Item postponed.",
+                item: res.item,
+                client: data.client
+            });
+        });
+    });
+
+    socket.on('restore-item', function(data) {
+        editItem(data.item, 4, function (res) {
+            io.emit('restore-item', {
+                msg: "Item restored.",
+                item: res.item,
+                client: data.client
+            });
+        });
+    });
+
+    socket.on('done-item', function(data) {
+        editItem(data.item, 2, function (res) {
+            io.emit('done-item', {
+                msg: "Item done.",
+                item: res.item,
+                client: data.client
+            });
         });
     });
 });
@@ -62,9 +110,9 @@ io.on('connection', function(socket) {
 function newItem(item, onSuccess) {
     var result = false;
     var form = {
-        "royal_todobundle_item[title]": item.title,
-        "royal_todobundle_item[content]": item.content,
-        "royal_todobundle_item[status]": 4
+        "title": item.title,
+        "content": item.content,
+        "status": 4
     };
 
     request.post(getUrl('new'), {
@@ -74,7 +122,9 @@ function newItem(item, onSuccess) {
         result = body;
         onSuccess(body);
     }).catch(function (error) {
-        console.log(error);
+        console.error("Error!");
+        console.error("Body: ", error.message);
+        console.error("Code: ", error.statusCode);
 
         result = error;
     });
@@ -82,12 +132,14 @@ function newItem(item, onSuccess) {
     return result;
 }
 
-function deleteItem(item, onSuccess) {
+function editItem(item, status, onSuccess) {
+    status = status || item.status;
+
     var result = false;
     var form = {
-        "royal_todobundle_item[content]": item.content,
-        "royal_todobundle_item[title]": item.title,
-        "royal_todobundle_item[status]": 1
+        "content": item.content,
+        "title": item.title,
+        "status": status
     };
 
     request.post(getUrl(item.id + '/edit'), {

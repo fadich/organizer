@@ -9,14 +9,14 @@
 
             return {
                 getAPIUrl: function () {
-                    return "http://org.loc/royal/todo/item/";
+                    return "/get-items/";
                 },
                 getToken: function () {
                     return token;
                 },
-                setToken: function (tk) {
-                    if (!token && typeof tk === 'string') {
-                        token = tk;
+                setToken: function (tkn) {
+                    if (!token && typeof tkn === 'string') {
+                        token = tkn;
                     }
                 }
             }
