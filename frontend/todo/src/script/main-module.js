@@ -63,7 +63,9 @@
 
         for (var i = items.length - 1; i >= 0; i--) {
             var item = items[i];
+
             if (item.status > 1) {
+
                 listTemplate += _rBaseComponent().bindValues(itemTemplate, {
                     id: item.id,
                     title: item.title,
@@ -71,7 +73,7 @@
                     statusClass: item.getStatusClass(),
                     textClass: item.getTextClass(),
                     options: item.getOptions(),
-                    checked: item.status === 2 ? "checked" : ""
+                    checked: +item.status === 2 ? "checked" : ""
                 });
             }
         }
@@ -231,7 +233,7 @@
 
         $('.r-item-checkbox').change(function (ev) {
             var $this = $(this);
-            var checked = !!$this.attr('checked');
+            var checked = $this.is(":checked");
             var item = getItemInfo($this);
 
             if (!item) {
@@ -239,10 +241,10 @@
                 return;
             }
 
-            if (!checked) {
+            if (checked) {
                 socket.emit('done-item', {
-                    item: item,
-                    client: client
+                     item: item,
+                     client: client
                 });
                 return;
             }
@@ -252,6 +254,8 @@
                     item: item,
                     client: client
                 });
+            } else {
+                this.checked = true;
             }
         });
 
@@ -286,7 +290,7 @@
         _rItemListService().editItem(res.item);
 
         $doc.trigger('buildListItems');
-
+        $doc.trigger('buildHeader');
 
         if (res.client !== client) {
             newItemEffect(res.item.id);

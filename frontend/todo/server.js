@@ -6,7 +6,7 @@ var request = require('request-promise');
 
 var io = require('socket.io')(http);
 
-app.use( bodyParser.urlencoded() );
+app.use( bodyParser.urlencoded({ extended: true }) );
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 
 http.listen("3000", function () {
@@ -110,9 +110,9 @@ io.on('connection', function(socket) {
 function newItem(item, onSuccess) {
     var result = false;
     var form = {
-        "royal_todobundle_item[title]": item.title,
-        "royal_todobundle_item[content]": item.content,
-        "royal_todobundle_item[status]": 4
+        "title": item.title,
+        "content": item.content,
+        "status": 4
     };
 
     request.post(getUrl('new'), {
@@ -122,7 +122,9 @@ function newItem(item, onSuccess) {
         result = body;
         onSuccess(body);
     }).catch(function (error) {
-        console.log(error);
+        console.error("Error!");
+        console.error("Body: ", error.message);
+        console.error("Code: ", error.statusCode);
 
         result = error;
     });
@@ -135,9 +137,9 @@ function editItem(item, status, onSuccess) {
 
     var result = false;
     var form = {
-        "royal_todobundle_item[content]": item.content,
-        "royal_todobundle_item[title]": item.title,
-        "royal_todobundle_item[status]": status
+        "content": item.content,
+        "title": item.title,
+        "status": status
     };
 
     request.post(getUrl(item.id + '/edit'), {

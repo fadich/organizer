@@ -167,7 +167,10 @@
                                 var editing = Item.findItem(item.id);
 
                                 if (editing) {
-                                    return Item.addItem(item, items.indexOf(editing));
+                                    var item = Item.addItem(item, items.indexOf(editing));
+                                    count();
+
+                                    return item;
                                 }
 
                                 return false;
