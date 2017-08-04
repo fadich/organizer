@@ -133,7 +133,7 @@ class ItemController extends Controller
         $item->update($request->request->all());
         $errors = $this->validate($item);
 
-        if ($errors->count()) {
+        if (!$errors->count()) {
             $em->persist($item);
             $em->flush();
 
