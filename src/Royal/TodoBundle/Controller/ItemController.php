@@ -173,8 +173,6 @@ class ItemController extends Controller
             ]);
         }
 
-        $csrf = $this->getCsrfToken($form->getName());
-
         return $this->json([
             'item' => $this->jsonEncode($item),
             'errors' => $this->jsonEncode($form->getErrors()),
