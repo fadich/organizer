@@ -246,6 +246,7 @@
                      item: item,
                      client: client
                 });
+
                 return;
             }
 
