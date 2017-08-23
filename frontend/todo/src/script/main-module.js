@@ -115,6 +115,11 @@
         $formHide.click(function () {
             $formGroup.slideUp();
             $submit.removeAttr('disabled');
+            $submit.html('<span class="glyphicon glyphicon-plus"></span>');
+            $fieldId.attr('value', '');
+            $fieldTitle.attr('value', '');
+            $fieldContent.text('');
+
         });
 
         $form.on('keyup', function (ev) {
@@ -151,9 +156,11 @@
             createItem(item);
         }
 
-        function updateItem() {
-            // TODO: Update item.
-            return false;
+        function updateItem(item) {
+            socket.emit('edit-item', {
+                item: item,
+                client: client
+            });
         }
 
         function createItem(item) {
@@ -168,6 +175,7 @@
         var $deleteButton = $('.r-btn-delete-item');
         var $postponeButton = $('.r-btn-postpone-item');
         var $restoreButton = $('.r-btn-restore-item');
+        var $editButton = $('.r-btn-edit-item');
 
         $deleteButton.click(function (ev) {
             var $this = $(this);
@@ -217,6 +225,33 @@
                 item: item,
                 client: client
             });
+        });
+
+        $editButton.click(function (ev) {
+            var $this = $(this);
+            var item = getItemInfo($this);
+
+            if (!item) {
+                console.error("Item not found.");
+                return;
+            }
+
+            var $form = $('#todo-item-form');
+            var $fieldId = $form.find('#item-id');
+            var $fieldTitle = $form.find('#item-title');
+            var $fieldContent = $form.find('#item-body');
+            var $submit = $('#item-submit');
+
+            $('html, body').animate({
+                scrollTop: $("#todo-list-form").offset().top
+            }, 1000);
+
+            $($form).find('#item-submit').click();
+
+            $fieldId.attr('value', item.id);
+            $fieldTitle.attr('value', item.title);
+            $fieldContent.text(item.content);
+            $submit.html('<span class="glyphicon glyphicon-refresh"></span>');
         });
 
         $('.r-new-item-border').hover(function (ev) {
@@ -341,6 +376,10 @@
     });
 
     socket.on('done-item', function (res) {
+        updatingItem(res);
+    });
+
+    socket.on('edit-item', function (res) {
         updatingItem(res);
     });
 

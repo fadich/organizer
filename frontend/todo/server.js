@@ -105,6 +105,16 @@ io.on('connection', function(socket) {
             });
         });
     });
+
+    socket.on('edit-item', function(data) {
+        editItem(data.item, data.item.status, function (res) {
+            io.emit('edit-item', {
+                msg: "Item updated.",
+                item: res.item,
+                client: data.client
+            });
+        });
+    });
 });
 
 function newItem(item, onSuccess) {
@@ -133,7 +143,7 @@ function newItem(item, onSuccess) {
 }
 
 function editItem(item, status, onSuccess) {
-    status = status || item.status;
+    status = arguments.length < 2 ? item.status : status;
 
     var result = false;
     var form = {
