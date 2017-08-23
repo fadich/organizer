@@ -179,6 +179,7 @@
             }
 
             if (confirm("Delete item \"" + item.title + "\"?")) {
+                _rPreloader().show();
                 socket.emit('delete-item', {
                     item: item,
                     client: client
@@ -195,6 +196,7 @@
                 return;
             }
 
+            _rPreloader().show();
             socket.emit('postpone-item', {
                 item: item,
                 client: client
@@ -210,6 +212,7 @@
                 return;
             }
 
+            _rPreloader().show();
             socket.emit('restore-item', {
                 item: item,
                 client: client
@@ -242,6 +245,7 @@
             }
 
             if (checked) {
+                _rPreloader().show();
                 socket.emit('done-item', {
                      item: item,
                      client: client
@@ -251,6 +255,7 @@
             }
 
             if (confirm('Restore "' + item.title + '"?')) {
+                _rPreloader().show();
                 socket.emit('restore-item', {
                     item: item,
                     client: client

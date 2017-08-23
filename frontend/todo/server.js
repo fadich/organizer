@@ -42,7 +42,7 @@ app.get("/template/:name", function(req, res) {
 });
 
 app.get("/get-items", function(req, res) {
-    request.get(getUrl(''), {
+    request.get(getUrl(), {
         json: true
     }).then(function (body) {
         res.send(body);
