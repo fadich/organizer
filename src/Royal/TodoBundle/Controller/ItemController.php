@@ -74,10 +74,6 @@ class ItemController extends Controller
         /** @var \Doctrine\Common\Persistence\ObjectManager $em */
         $em = $this->getDoctrine()->getManager();
 
-<<<<<<< HEAD
-        // royal_todobundle_item[field_name]
-=======
->>>>>>> master
         $item = new TodoItem();
         $item->update($request->request->all());
         $errors = $this->validate($item);
