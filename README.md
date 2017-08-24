@@ -42,5 +42,3 @@ Route      | Method      | Parameters                                           
 ```
     
 </details>
-
-- - - -
