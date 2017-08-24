@@ -43,7 +43,7 @@
             }
 
             this.getStatusClass = function () {
-                switch (this.status) {
+                switch (+this.status) {
                     case 4:
                         return 'r-item-active';
                     case 3:
@@ -53,12 +53,11 @@
                     case 1:
                         return 'r-item-deleted';
                 }
-
                 return '';
             };
 
             this.getTextClass = function () {
-                switch (this.status) {
+                switch (+this.status) {
                     case 4:
                         return '';
                     case 3:
