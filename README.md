@@ -27,7 +27,7 @@ Route      | Method      | Parameters                                           
 
 <details>
     <summary>Item structure</summary>
-    <small>Approximate item structure:</small>
+    <sub>Approximate item structure:</sub>
     
 ```json
    {
