@@ -25,5 +25,22 @@ Route      | Method      | Parameters                                           
   </sub>
 </sub>
 
-- - - -
+ <details>
+    <summary>Item structure</summary>
+    <small>Approximate item structure:</small>
+    
+```json
+   {
+       "id": 1,
+       "title": "Example item name",
+       "content": "Example item content. The should be long text...",
+       "status": 4,
+       "userId": 1,
+       "createdAt": 1494336605,
+       "updatedAt": 1503582000
+   }
+```
+    
+</details>
 
+- - - -
