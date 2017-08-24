@@ -1,6 +1,6 @@
 <h2 align="center">Organizer</h2>
 
-* <h4>**Todo-list API**</h3>
+* <h4>Todo-list API</h3>
 
 Route      | Method      | Parameters                                                      | Note                              
 ---------- | ----------- | --------------------------------------------------------------- | --------------------------------- 
