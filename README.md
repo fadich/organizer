@@ -21,9 +21,11 @@ Route      | Method      | Parameters                                           
      <span color="grey">Actually, the last two statuses (not active and deleted) need clarification.</span>
    </sub>
 </sub>
+
+<br />
 <br />
 
- <details>
+<details>
     <summary>Item structure</summary>
     <small>Approximate item structure:</small>
     
