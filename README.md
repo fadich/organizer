@@ -1,52 +1,29 @@
 <h2 align="center">Organizer</h2>
 
-<hr>
+###Todo-list API
 
-**Royal TODO API**
+Route      | Method      | Parameters                                                                              | Note                              |
+---------- | ----------- | --------------------------------------------------------------------------------------- | --------------------------------- |
+**/**      | **GET**     |                                                                                         | Get all items                     |
+**/**      | **POST**    | Title:string; content:string (text)                                                     | Create new item                   |
+**/{id}**  | **GET**     |                                                                                         | Get an item by id                 |
+**/{id}**  | **POST**    | Title:string; content:string (text), status:integer<span style="color:#C00000">*</span> | Update an item                    |
+**/{id}**  | **DELETE**  |                                                                                         | Delete an item _(permanently)_    |
 
-- Get items:
-```
-$.get("http://127.0.0.1:4242/royal/todo/item", function (data) {
-    // handling
-});
-```
-- Add new item:
-```
-var form = {
-    "content": "Content",
-    "title": "Test",
-    "status": 4
-};
-$.post("http://127.0.0.1:4242/royal/todo/item/new", form, function (data) {
-    // handling
-});
-```
-- Show item:
-```
-$.get("http://127.0.0.1:4242/royal/todo/item/{item_id}/show", function (data) {
-    // handling
-});
-```
-- Edit item:
-```
-var form = {
-    "content": "Content",
-    "title": "Test item",
-    "status": 4
-};
-$.post("http://127.0.0.1:4242/royal/todo/item/{item_id}/edit", form, function (data) {
-    // handling
-});
-```
-- Delete item:
-```
-$.ajax({
-    url: 'http://127.0.0.1:4242/royal/todo/item/{item_id}/delete',
-    type: 'delete',
-    success: function(data) {
-        // handling
-    }
-});
-```
+<sub>
+  <sub>
+    <span style="color:#C00000">*</span> There are possible statuses:<br />
+       &nbsp;&nbsp;&nbsp;4: "Active" <br />
+       &nbsp;&nbsp;&nbsp;3: "Postponed" <br />
+       &nbsp;&nbsp;&nbsp;2: "Done" <br />
+       &nbsp;&nbsp;&nbsp;1: "Not active" (can be used for trash etc.) <br />
+       &nbsp;&nbsp;&nbsp;0: "Deleted" (item will be remaining on server, but does not participate in the list) <br />
+       <br />
+       <sub>
+         <span color="grey">Actually, the last two statuses (not active and deleted) need clarification.</span>
+       </sub>
+  </sub>
+</sub>
 
-<hr>
+- - - -
+
