@@ -18,7 +18,7 @@ Route      | Method      | Parameters                                           
    &nbsp;&nbsp;&nbsp;1: "Not active" (can be used for trash etc.) <br />
    &nbsp;&nbsp;&nbsp;0: "Deleted" (item will be remaining on server, but does not participate in the list) <br />
    <sub>
-     <span color="grey">Actually, the last two statuses (not active and deleted) need clarification.</span>
+     <span color="grey">Actually, the last two statuses ("Not active" and "Deleted") need to be clarified.</span>
    </sub>
 </sub>
 
