@@ -4,7 +4,7 @@
 
 Route      | Method      | Parameters                                                      | Note                              
 ---------- | ----------- | --------------------------------------------------------------- | --------------------------------- 
-**/**      | **GET**     |                                                                 | Get all items (except items, which has "Deleted" status&nbsp;*)                     |
+**/**      | **GET**     |                                                                 | Get all items (except items, which has "Deleted" status)&nbsp;*
 **/**      | **POST**    | **title**:string; **content**:string (text)                     | Create new item                   
 **/{id}**  | **GET**     |                                                                 | Get an item by id                 
 **/{id}**  | **POST**    | **title**:string; **content**:string (text), **status**:integer | Update an item                    
