@@ -2,7 +2,6 @@
 
 namespace Royal\TodoBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
 use Royal\TodoBundle\Entity\TodoItem;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,21 +74,20 @@ class ItemController extends Controller
         /** @var \Doctrine\Common\Persistence\ObjectManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        // royal_todobundle_item[field_name]
         $item = new TodoItem();
         $item->update($request->request->all());
+        $errors = $this->validate($item);
 
-        if ('Is Valid') { // TODO: Validation
+        if (!$errors->count()) {
             $em->persist($item);
             $em->flush();
-
             return $this->json([
                 'item' => $this->jsonEncode($item),
             ]);
         }
 
         return $this->json([
-            'errors' => $this->jsonEncode([]),
+            'errors' => $this->jsonEncode($errors->count()), // TODO: Error messages
         ], 400);
     }
 
@@ -131,10 +129,10 @@ class ItemController extends Controller
 
         /** @var \Doctrine\Common\Persistence\ObjectManager $em */
         $em = $this->getDoctrine()->getManager();
-
         $item->update($request->request->all());
+        $errors = $this->validate($item);
 
-        if ('Is Valid') { // TODO: Validation
+        if (!$errors->count()) {
             $em->persist($item);
             $em->flush();
 
@@ -145,7 +143,7 @@ class ItemController extends Controller
 
         return $this->json([
             'item' => $this->jsonEncode($item),
-            'errors' => $this->jsonEncode([]),
+            'errors' => $this->jsonEncode($errors->count()), // TODO: Error messages
         ], 400);
     }
 
@@ -159,64 +157,14 @@ class ItemController extends Controller
      */
     public function deleteAction(Request $request, TodoItem $item)
     {
-        $form = $this->createDeleteForm($item);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $deleted = clone $item;
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($item);
-            $em->flush();
-
-            return $this->json([
-                'item' => $this->jsonEncode($deleted),
-            ]);
-        }
+        $deleted = clone $item;
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($item);
+        $em->flush();
 
         return $this->json([
-            'item' => $this->jsonEncode($item),
-            'errors' => $this->jsonEncode($form->getErrors()),
-//            'token' => $csrf,
-        ], 400);
-    }
-
-    /**
-     * Creates a form to delete a item entity.
-     *
-     * @param \Royal\TodoBundle\Entity\TodoItem $item The item entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(TodoItem $item)
-    {
-        $form = $this->createFormBuilder()->setAction(
-            $this->generateUrl('item_delete', [
-                'id' => $item->getId()
-            ])
-        );
-
-        return $form->setMethod('DELETE')->getForm();
-    }
-
-    /**
-     * @return \Symfony\Component\Security\Csrf\CsrfTokenManager
-     */
-    protected function csrfTokenManager()
-    {
-        /** @var \Symfony\Component\Security\Csrf\CsrfTokenManager $csrf */
-        $csrf = $this->get("security.csrf.token_manager");
-
-        return $csrf;
-    }
-
-    /**
-     * @param string $tokenId
-     *
-     * @return string
-     */
-    protected function getCsrfToken(string $tokenId)
-    {
-        return $this->csrfTokenManager()->getToken($tokenId)->getValue();
+            'item' => $this->jsonEncode($deleted),
+        ]);
     }
 
     /**
@@ -234,11 +182,33 @@ class ItemController extends Controller
      *
      * {@inheritdoc}
      */
-    public function json($data, $status = 200, $headers = [], $context = []) {
+    public function json($data, $status = 200, $headers = [], $context = []) 
+    {
+        $request = Request::createFromGlobals();
         $response = parent::json($data, $status, $headers, $context);
         $response->headers->set('Access-Control-Allow-Origin', '*');
 
+        if ($request->get('pretty') !== null) {
+            $response->setEncodingOptions(JSON_PRETTY_PRINT);
+        }
+
         return $response;
+    }
+
+    /**
+     * Validate the entity.
+     *
+     * @param object $entity
+     *
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
+    protected function validate($entity)
+    {
+        /** @var \Symfony\Component\Validator\Validator\RecursiveValidator $validator */
+        $validator = $this->get('validator');
+
+        return $validator->validate($entity);
+
     }
 
 }

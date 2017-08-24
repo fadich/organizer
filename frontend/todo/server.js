@@ -42,7 +42,7 @@ app.get("/template/:name", function(req, res) {
 });
 
 app.get("/get-items", function(req, res) {
-    request.get(getUrl(''), {
+    request.get(getUrl(), {
         json: true
     }).then(function (body) {
         res.send(body);
@@ -105,6 +105,16 @@ io.on('connection', function(socket) {
             });
         });
     });
+
+    socket.on('edit-item', function(data) {
+        editItem(data.item, data.item.status, function (res) {
+            io.emit('edit-item', {
+                msg: "Item updated.",
+                item: res.item,
+                client: data.client
+            });
+        });
+    });
 });
 
 function newItem(item, onSuccess) {
@@ -115,7 +125,7 @@ function newItem(item, onSuccess) {
         "status": 4
     };
 
-    request.post(getUrl('new'), {
+    request.post(getUrl(), {
         json: true,
         form: form
     }).then(function (body) {
@@ -123,7 +133,7 @@ function newItem(item, onSuccess) {
         onSuccess(body);
     }).catch(function (error) {
         console.error("Error!");
-        console.error("Body: ", error.message);
+        // console.error("Body: ", error.message);
         console.error("Code: ", error.statusCode);
 
         result = error;
@@ -133,7 +143,7 @@ function newItem(item, onSuccess) {
 }
 
 function editItem(item, status, onSuccess) {
-    status = status || item.status;
+    status = arguments.length < 2 ? item.status : status;
 
     var result = false;
     var form = {
@@ -142,14 +152,15 @@ function editItem(item, status, onSuccess) {
         "status": status
     };
 
-    request.post(getUrl(item.id + '/edit'), {
+    request.post(getUrl(item.id), {
         json: true,
         form: form
     }).then(function (body) {
         result = body;
         onSuccess(body);
     }).catch(function (error) {
-        console.log(error);
+        console.log(error.statusCode);
+        console.log(error.message);
 
         result = error;
     });
@@ -158,5 +169,7 @@ function editItem(item, status, onSuccess) {
 }
 
 function getUrl(route) {
-    return "http://org.loc/royal/todo/item/" + route;
+    route = route || "";
+
+    return "http://org.loc/royal/todo/list/" + route;
 }

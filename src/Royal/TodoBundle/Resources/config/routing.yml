@@ -1,6 +1,6 @@
 royal_todo_item:
     resource: "@RoyalTodoBundle/Resources/config/routing/item.yml"
-    prefix:   /royal/todo/item
+    prefix:   /royal/todo/list
 #    condition: "request.isXmlHttpRequest()"
 
 royal_todo_homepage:
