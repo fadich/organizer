@@ -10,7 +10,7 @@ namespace Royal\TodoBundle\Frontend;
  */
 class FrontendManager
 {
-    protected $indexUrl = 'http://127.0.0.1:3000';
+    protected $indexUrl = 'http://org.royallib.pw:3000/';
 
     protected function getIndexUrl()
     {
