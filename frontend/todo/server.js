@@ -171,5 +171,5 @@ function editItem(item, status, onSuccess) {
 function getUrl(route) {
     route = route || "";
 
-    return "http://org.loc/royal/todo/list/" + route;
+    return "http://org.royallib.pw/royal/todo/list/" + route;
 }
